@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "sales-data-modelling"
+version = "0.1.0"
+description = "A project to practice using dimensional data modeling, dbt, Docker, Airflow."
+authors = ["repeckadonatas <repeckadonatas@yahoo.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11 <3.12"
+python-dotenv = "1.0.1"
+psycopg = {extras = ["binary"], version = "3.2.1"}
+pytz = "^2024.1"
+SQLAlchemy = "2.0.32"
+pandas = "2.2.2"
+SQLAlchemy-Utils = "0.41.2"
+requests = "2.32.3"
+pyspark = "3.5.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
