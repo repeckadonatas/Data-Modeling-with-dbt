@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError, DBAPIError, DatabaseError, DisconnectionError
 
 import src.logger as log
-from src.constants import *
+from src.utils import env_config
 
 
 db_logger = log.app_logger(__name__)
