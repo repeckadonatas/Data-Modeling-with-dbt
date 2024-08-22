@@ -6,9 +6,11 @@ import logging
 from pathlib import Path
 from datetime import datetime
 
+
 # DATE
 DATE_TODAY = datetime.today().strftime('%Y_%m_%d')
 DATETIME_NOW = datetime.now().strftime("%Y%m%d_%H%M")
+
 
 # FOR LOGGER ONLY
 LOG_TIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -17,24 +19,14 @@ FORMATTER = logging.Formatter(f'{LOG_TIME} :: %(name)s :: %(levelname)s :: %(fun
 PATH_TO_LOGS = Path(__file__).cwd()
 LOG_FILE = PATH_TO_LOGS / 'logs/' / ("app_logger_" + datetime.today().strftime("%Y%m%d") + ".log")
 
+
 # DATABASE INITIALIZATION
 INIT_DB = Path(__file__).cwd() / 'sql/init.sql'
 
-# FOR PG_DUMP FUNCTION
+# PG_DUMP FOR BACKUP FUNCTIONALITY
 # PG_DUMP = r'C:\Program Files\PostgreSQL\16\bin\pg_dump.exe'
 PG_DUMP = 'pg_dump'
 
-# API URLs
-COUNT_LIMIT = 20
-
-REMOTIVE_API = f"https://remotive.com/api/remote-jobs?limit={COUNT_LIMIT}"
-HIMALAYAS_API = f"https://himalayas.app/jobs/api?limit={COUNT_LIMIT}"
-JOBICY_API = f"https://jobicy.com/api/v2/remote-jobs?count={COUNT_LIMIT}"
-
-API_DICT = {'REMOTIVE': REMOTIVE_API,
-            'HIMALAYAS': HIMALAYAS_API,
-            'JOBICY': JOBICY_API
-            }
 
 # PATHS TO DATA AND FILES
 PATH_TO_DATA_STORAGE = Path(__file__).cwd() / 'src/data'
@@ -45,6 +37,7 @@ BACKUP_FOLDER_TODAY = PATH_TO_BACKUPS / f"backup_{DATE_TODAY}"
 
 # BACKUP FOLDERS FOR DATABASE
 DB_BACKUP_FILE = BACKUP_FOLDER_TODAY / f"db_backup_{DATETIME_NOW}.sql"
+
 
 # FOR DATAFRAME
 COLS_NORMALIZE = ['jobs']
