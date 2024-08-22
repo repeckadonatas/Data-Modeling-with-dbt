@@ -1,14 +1,43 @@
+# COMMON SETTINGS FOR APPs SERVICES
+x-app-common: &app-common
+#  networks:
+#    - my-bridge-network
+  env_file:
+    - .env
+  environment:
+    PGUSER: ${PGUSER}
+    PGPASSWORD: ${PGPASSWORD}
+    POSTGRES_PASSWORD: ${PGPASSWORD}
+    PGPORT: ${PGPORT}
+    PGDATABASE: ${PGDATABASE}
+    PGHOST: ${PGHOST}
+
+
 services:
 
-  project-postgres:
+  project-db:
+    <<: *app-common
     image: postgres:15
-    
-
-
-  dbt:
-    image: ghcr.io/dbt-labs/dbt-core:latest
-    working_dir: /dbt
-    command:
-      - dbt run
+    restart: always
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 20s
+      retries: 5
     volumes:
-      - .:/dbt
+      - sales-data-db:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+#  dbt:
+#    image: ghcr.io/dbt-labs/dbt-core:latest
+#    working_dir: /dbt
+#    command:
+#      - dbt run
+#    volumes:
+#      - .:/dbt
+
+volumes:
+  sales-data-db:
+    driver: local
