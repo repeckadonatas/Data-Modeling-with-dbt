@@ -15,10 +15,10 @@ SQLAlchemy = "2.0.32"
 pandas = "2.2.2"
 SQLAlchemy-Utils = "0.41.2"
 requests = "2.32.3"
-pyspark = "3.5.2"
+pyspark = "3.5.1"
 
 [tool.poetry.group.dev.dependencies]
-jupyter = "^1.0.0"
+findspark = "^2.0.1"
 
 [build-system]
 requires = ["poetry-core"]
