@@ -3,7 +3,7 @@ sales-data-modeling:
   outputs:
     dev:
       type: postgres
-      host: [hostname]
+      host: ${PGHOST}
       user: [username]
       password: [password]
       port: [port]
