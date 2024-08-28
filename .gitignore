@@ -6,19 +6,25 @@
 src/__pycache__
 src/db_functions/__pycache__
 src/logger/__pycache__
-src/get_api_data/__pycache__
-src/data_preparation/__pycache__
+src/data_normalization/__pycache__
 src/backup_functions/__pycache__/
 dags/__pycache__/
 
+# SRC FILES/FOLDERS
+src/input
+src/data/
+src/data_normalization/data_normalization.ipynb
+src/data_normalization/.ipynb_checkpoints
+src/data_normalization/*.ipynb
 
-# OTHER FILES
+# DAGs
 dockerfiles/airflow_dockerfiles/dags
+
+# OTHER FOLDERS
 logs/
 backups/
 plugins/
 secrets/
-src/data/
-src/data_preparation/.ipynb_checkpoints
-src/data_preparation/data_preparation.ipynb
+
+# OTHER FILES
 airflow-compose.txt
