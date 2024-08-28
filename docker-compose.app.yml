@@ -1,7 +1,5 @@
 # COMMON SETTINGS FOR APPs SERVICES
 x-app-common: &app-common
-#  networks:
-#    - my-bridge-network
   env_file:
     - .env
   environment:
@@ -14,7 +12,6 @@ x-app-common: &app-common
 
 
 services:
-
   project-db:
     <<: *app-common
     image: postgres:15
@@ -30,13 +27,13 @@ services:
       - sales-data-db:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-#  dbt:
-#    image: ghcr.io/dbt-labs/dbt-core:latest
-#    working_dir: /dbt
-#    command:
-#      - dbt run
-#    volumes:
-#      - .:/dbt
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-core:latest
+    working_dir: /dbt
+    command:
+      - dbt run
+    volumes:
+      - .:/dbt
 
 volumes:
   sales-data-db:
