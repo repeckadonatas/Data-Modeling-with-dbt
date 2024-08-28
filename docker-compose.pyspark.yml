@@ -1,0 +1,74 @@
+# COMMON SETTINGS FOR SPARK SERVICES
+x-spark-common: &spark-common
+  image: bitnami/spark:3.5.1
+  extra_hosts:
+    - "host.docker.internal:172.17.0.1"
+    - "host.docker.internal:172.18.0.3"
+    - "host.docker.internal:host-gateway"
+  networks:
+    - spark-network
+#  environment:
+## FOR SPARK-MASTER
+#    SPARK_RPC_AUTHENTICATION_ENABLED: no
+#    SPARK_RPC_ENCRYPTION_ENABLED: no
+#    SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
+#    SPARK_SSL_ENABLED: no
+#    SPARK_USER: spark
+#    SPARK_MASTER_HOST: spark-master
+#    SPARK_HOME: /opt/bitnami/spark
+## FOR SPARK-WORKER
+#    SPARK_WORKER_MEMORY: 2G      #<--- adjust accordingly
+#    SPARK_WORKER_CORES: 2
+
+
+services:
+
+  spark-master:
+    <<: *spark-common
+    container_name: spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    environment:
+      SPARK_MODE: master
+      SPARK_RPC_AUTHENTICATION_ENABLED: no
+      SPARK_RPC_ENCRYPTION_ENABLED: no
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
+      SPARK_SSL_ENABLED: no
+
+  spark-worker:
+    <<: *spark-common
+    container_name: spark-worker
+    depends_on:
+      - spark-master
+    environment:
+      SPARK_MODE: worker
+      SPARK_MASTER_URL: spark://spark-master:7077
+      SPARK_WORKER_MEMORY: 2G
+      SPARK_WORKER_CORES: 1
+      SPARK_RPC_AUTHENTICATION_ENABLED: no
+      SPARK_RPC_ENCRYPTION_ENABLED: no
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
+      SPARK_SSL_ENABLED: no
+
+
+# JUPYTER FOR EASIER SETUP IN IDE
+  jupyter:
+    image: jupyter/pyspark-notebook:python-3.11
+    container_name: jupyter-notebook
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+    networks:
+      - spark-network
+    environment:
+      - SPARK_OPTS="--master=spark://spark-master:7077"
+    volumes:
+      - ./src/input:/home/jovyan/work
+
+#volumes:
+#  spark-data:
+
+networks:
+  spark-network:
+    driver: bridge
