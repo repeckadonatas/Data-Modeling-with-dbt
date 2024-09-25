@@ -1,5 +1,10 @@
 import os
+from datetime import datetime
+
+import pyspark
+from pyspark.sql.functions import lit
 from dotenv import load_dotenv, find_dotenv
+
 
 # REUSABLE FUNCTIONS
 def env_config() -> os.environ:
@@ -62,3 +67,15 @@ def determine_table_name(file_name: str,
     for prefix, table in table_mapping.items():
         if file_name_lower.startswith(prefix.lower()):
             return table
+
+
+def add_timestamp(dataframe: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
+    """
+    Adds a timestamp to the dataframe.
+    :param dataframe: a dataframe to add the timestamp to.
+    :return: a dataframe with the timestamp added.
+    """
+    date_now = datetime.now()
+    dataframe = dataframe.withColumn('timestamp', lit(date_now))
+
+    return dataframe
