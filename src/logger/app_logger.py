@@ -7,7 +7,7 @@ import sys
 import logging.handlers
 from logging.handlers import RotatingFileHandler
 
-from src.constants import *
+from src.constants import FORMATTER, LOG_FILE
 
 
 def get_console_handler() -> logging.StreamHandler:
