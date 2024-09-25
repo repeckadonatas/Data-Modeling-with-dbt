@@ -3,8 +3,9 @@ Constants that are used throughout the project.
 """
 
 import logging
-from pathlib import Path
 from datetime import datetime
+
+from src.utils import project_root, Path
 
 
 # DATE
@@ -16,8 +17,12 @@ DATETIME_NOW = datetime.now().strftime("%Y%m%d_%H%M")
 LOG_TIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 FORMATTER = logging.Formatter(f'{LOG_TIME} :: %(name)s :: %(levelname)s :: %(funcName)s :: %(message)s')
-PATH_TO_LOGS = Path(__file__).cwd()
-LOG_FILE = PATH_TO_LOGS / 'logs/' / ("app_logger_" + datetime.today().strftime("%Y%m%d") + ".log")
+# PROJECT_ROOT = Path(__file__).cwd()
+PROJECT_ROOT = project_root(Path(__file__).resolve().parent, '.gitignore')
+PATH_TO_LOGS = PROJECT_ROOT / 'logs'
+# PATH_TO_LOGS = Path(__file__).cwd()
+# LOG_FILE = PATH_TO_LOGS / 'logs/' / ("app_logger_" + datetime.today().strftime("%Y%m%d") + ".log")
+LOG_FILE = PATH_TO_LOGS / ("app_logger_" + datetime.today().strftime("%Y%m%d") + ".log")
 
 
 # DATABASE INITIALIZATION
