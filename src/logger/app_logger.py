@@ -7,7 +7,7 @@ import sys
 import logging.handlers
 from logging.handlers import RotatingFileHandler
 
-from src.constants import FORMATTER, LOG_FILE
+from src.constants import FORMATTER, LOG_FILE, PATH_TO_LOGS
 
 
 def get_console_handler() -> logging.StreamHandler:
@@ -28,6 +28,7 @@ def get_file_handler() -> logging.handlers.RotatingFileHandler:
     Creates a file handler object that stores log outputs.
     :return: returns .logs file
     """
+    PATH_TO_LOGS.mkdir(parents=True, exist_ok=True)
     file_handler = RotatingFileHandler(LOG_FILE)
     file_handler.setFormatter(FORMATTER)
     return file_handler
