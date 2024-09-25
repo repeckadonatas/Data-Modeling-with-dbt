@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from pathlib import Path
 
 import pyspark
 from pyspark.sql.functions import lit
@@ -7,6 +8,21 @@ from dotenv import load_dotenv, find_dotenv
 
 
 # REUSABLE FUNCTIONS
+def project_root(current_dir: Path,
+                 root_dir_marker: str) -> Path:
+    """
+    Points the logger to the project root directory
+    based on a specific marker located in the project's root directory.
+    :param current_dir: directory to start the search from
+    :param root_dir_marker: marker that indicates the root directory
+    :return: path to the project's root directory
+    """
+    for parent in current_dir.resolve().parents:
+        if (parent / root_dir_marker).exists():
+            return parent
+    return current_dir.resolve()
+
+
 def env_config() -> os.environ:
     """
     Gets database connection credentials from .env file.
