@@ -5,6 +5,9 @@ Constants that are used throughout the project.
 import logging
 from datetime import datetime
 
+from pyspark.sql.types import (StructType, StructField, StringType, IntegerType,
+                               DoubleType, DateType)
+
 from src.utils import project_root, Path
 
 
@@ -36,13 +39,26 @@ PG_DUMP = 'pg_dump'
 # PATHS TO DATA AND FILES
 PATH_TO_DATA_STORAGE = project_root(Path(__file__).resolve().parent, '.gitignore') / 'src/data'
 
+
 # BACKUPS LOCATION
 PATH_TO_BACKUPS = project_root(Path(__file__).resolve().parent, '.gitignore') / 'backups'
 BACKUP_FOLDER_TODAY = PATH_TO_BACKUPS / f"backup_{DATE_TODAY}"
+
 
 # BACKUP FOLDERS FOR DATABASE
 DB_BACKUP_FILE = BACKUP_FOLDER_TODAY / f"db_backup_{DATETIME_NOW}.sql"
 
 
 # DATAFRAME SCHEMAS
+STATUS_SCHEMA = StructType(
+    [
+        StructField('status_id', IntegerType(), False),
+        StructField('finishing_status', StringType(), False)
+    ]
+)
 
+SCHEMAS_LIST = [STATUS_SCHEMA]
+
+FILE_SCHEMA_DICT = {
+    'status': STATUS_SCHEMA,
+}
