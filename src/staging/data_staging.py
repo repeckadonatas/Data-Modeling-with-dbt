@@ -1,11 +1,10 @@
 import pyspark
 from pyspark.sql import SparkSession
-from pyspark.sql.types import (StructType, StructField, StringType, IntegerType,
-                               DoubleType, DateType)
 from pyspark.errors import PySparkException
 
 import src.logger as log
-from src.utils import add_timestamp
+from src.utils import read_dict, add_timestamp
+from src.constants import FILE_SCHEMA_DICT
 
 staging_logger = log.app_logger(__name__)
 
@@ -40,32 +39,45 @@ class DataStaging:  #TODO
         except (PySparkException, exc_type, exc_val, exc_tb) as err:
             staging_logger.info('Spark Session was not closed:: %s', err, exc_info=True)
 
-    def create_dataframe(self, csv_file: str) -> pyspark.sql.DataFrame:
+    def schema_select(self, csv_file: str) -> str:
         """
-        Create a dataframe from a provided CSV file.
+        Selects a correct schema based on the CSV file's name.
+        :return:
+        """
+        file_schema_select = read_dict(FILE_SCHEMA_DICT)
+
+        for file, schema in file_schema_select:
+            if file == csv_file:
+                schema_name = schema
+                staging_logger.info('Schema "%s" selected for CSV file "%s"', schema, file)
+            else:
+                staging_logger.info('No schema selected for CSV file "%s"', file)
+
+        return schema_name
+
+    def create_dataframe(self,
+                         csv_file: str,
+                         schema_name: str) -> pyspark.sql.DataFrame:
+        """
+        Create a data frame from a provided CSV file.
+        Applies a correct schema to the data frame.
         :param csv_file: a CSV file from which to create a data frame.
-        :return: returns a data frame created from the provided CSV file.
+        :param schema_name: the name of the schema to apply to the data frame.
+        :return: returns a data frame created from the provided CSV file with schema applied..
         """
         try:
             if not csv_file:
                 staging_logger.info('CSV file was not provided')
 
-            dataframe = self.spark.read.csv(csv_file, header=True)
+            dataframe = self.spark.read \
+                .format('csv') \
+                .schema(schema_name) \
+                .option('header', True) \
+                .load(csv_file)
+
 
         except PySparkException as err:
             staging_logger.info('A PySpark exception occurred while creating a data frame: %s', err, exc_info=True)
-
-        return dataframe
-
-    def apply_schema(self,
-                     dataframe: pyspark.sql.DataFrame,
-                     schema_name: str) -> pyspark.sql.DataFrame:
-        """
-
-        :param dataframe:
-        :param schema_name:
-        :return:
-        """
 
         return dataframe
 
