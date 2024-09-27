@@ -37,7 +37,7 @@ PG_DUMP = 'pg_dump'
 
 
 # PATHS TO DATA AND FILES
-PATH_TO_DATA_STORAGE = project_root(Path(__file__).resolve().parent, '.gitignore') / 'src/data'
+PATH_TO_DATA_STORAGE = project_root(Path(__file__).resolve().parent, '.gitignore') / 'src' / 'input'
 
 
 # BACKUPS LOCATION
@@ -53,12 +53,12 @@ DB_BACKUP_FILE = BACKUP_FOLDER_TODAY / f"db_backup_{DATETIME_NOW}.sql"
 STATUS_SCHEMA = StructType(
     [
         StructField('status_id', IntegerType(), False),
-        StructField('finishing_status', StringType(), False)
+        StructField('status', StringType(), False)
     ]
 )
 
-SCHEMAS_LIST = [STATUS_SCHEMA]
+# SCHEMAS_LIST = [STATUS_SCHEMA]
 
 FILE_SCHEMA_DICT = {
-    'status': STATUS_SCHEMA,
+    'status.csv': ('STATUS_SCHEMA', STATUS_SCHEMA),
 }
