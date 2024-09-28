@@ -5,7 +5,6 @@ x-app-common: &app-common
   environment:
     PGUSER: ${PGUSER}
     PGPASSWORD: ${PGPASSWORD}
-    POSTGRES_PASSWORD: ${PGPASSWORD}
     PGPORT: ${PGPORT}
     PGDATABASE: ${PGDATABASE}
     PGHOST: ${PGHOST}
@@ -15,9 +14,14 @@ services:
   project-db:
     <<: *app-common
     image: postgres:15
+    container_name: sales-data-db
     restart: always
     ports:
       - "5432:5432"
+    environment:
+      PGUSER: postgres
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PGDATABASE}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
       interval: 1s
@@ -26,14 +30,15 @@ services:
     volumes:
       - sales-data-db:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./scripts/set_password.sh:/docker-entrypoint-initdb.d/set_password.sh
 
-  dbt:
-    image: ghcr.io/dbt-labs/dbt-core:latest
-    working_dir: /dbt
-    command:
-      - dbt run
-    volumes:
-      - .:/dbt
+#  dbt:
+#    image: ghcr.io/dbt-labs/dbt-core:latest
+#    working_dir: /dbt
+#    command:
+#      - dbt run
+#    volumes:
+#      - .:/dbt
 
 volumes:
   sales-data-db:
