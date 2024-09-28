@@ -100,6 +100,7 @@ class DriverStandingsTable(Base):
 class LapTimesTable(Base):
     __tablename__ = 'lap_times'
 
+    lap_times_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
     race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
     driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
     lap = Column(Integer(), nullable=False, default=None)
@@ -112,6 +113,7 @@ class LapTimesTable(Base):
 class PitStopsTable(Base):
     __tablename__ = 'pit_stops'
 
+    pit_stops_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
     race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
     driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
     pit_stop_number = Column(Integer(), nullable=False, default=None)
