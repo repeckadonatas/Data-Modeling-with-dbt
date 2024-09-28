@@ -51,7 +51,7 @@ class SparkSessionManager:
             staging_logger.info('Error closing Spark Session: %s', err, exc_info=True)
 
 
-def schema_select(csv_file: str) -> (str | None):
+def schema_select(csv_file: str) -> (pyspark.sql.types.StructType | None):
     """
     Selects a correct schema based on the CSV file's name.
     :return: schema
@@ -81,7 +81,7 @@ def create_dataframe(spark: SparkSession,
     try:
         if not csv_file:
             staging_logger.warning('CSV file was not provided.')
-            raise ValueError('CSV name is required.')
+            raise ValueError('CSV file name is required.')
 
         full_path = Path(PATH_TO_DATA_STORAGE) / csv_file
         if not full_path.exists():
@@ -110,12 +110,6 @@ def add_timestamp(dataframe: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
 
     return dataframe
 
-def upload_to_db(dataframe: pyspark.sql.DataFrame): #TODO
-    """
-
-    :param dataframe:
-    :return:
-    """
 
 if __name__ == '__main__':
     with SparkSessionManager() as spark:
@@ -127,7 +121,5 @@ if __name__ == '__main__':
                 df = create_dataframe(spark, csv_file, schema_name)
                 df = add_timestamp(df)
                 df.show(5)
-                #TODO
-                # upload_to_db(df)
             else:
                 staging_logger.warning('Skipping file "%s" processing due to missing schema', csv_file)
