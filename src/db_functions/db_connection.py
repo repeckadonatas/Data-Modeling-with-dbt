@@ -10,7 +10,7 @@ from src.utils import env_config
 db_logger = log.app_logger(__name__)
 
 
-class JobsDataDatabase:
+class DatabaseConnection:
     """
     Database connection functions.
     Used to create a connection with a database
