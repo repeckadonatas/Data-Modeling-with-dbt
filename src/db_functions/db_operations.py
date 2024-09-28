@@ -3,7 +3,7 @@ from sqlalchemy import inspect
 from sqlalchemy.exc import SQLAlchemyError, OperationalError, DBAPIError, DatabaseError, DisconnectionError
 
 import src.db_functions.db_tables as db_tables
-from src.db_functions.db_connection import db_logger, JobsDataDatabase
+from src.db_functions.db_connection import db_logger, DatabaseConnection
 
 
 # class DataUpload(JobsDataDatabase):
@@ -33,7 +33,7 @@ def create_tables(engine: sqlalchemy.engine) -> None:
                 db_logger.info('Table "%s" already exists. Skipping creation.', table_name)
 
         print()
-    except (OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as e:
+    except (SQLAlchemyError, OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as e:
         db_logger.error('An error occurred while creating tables: %s', e, exc_info=True)
 
 def get_tables_in_db(engine: sqlalchemy.engine) -> list:
@@ -69,3 +69,13 @@ def load_to_database(engine: sqlalchemy.engine,
         db_logger.error("An error occurred while loading the data: %s. "
                         "Rolling back the last transaction", e, exc_info=True)
         engine.rollback()
+
+
+if __name__ == '__main__':
+
+    try:
+        engine = DatabaseConnection()
+        create_tables(engine)
+        get_tables_in_db(engine)
+    except SQLAlchemyError as e:
+        db_logger.error('An error occurred while creating tables: %s', e, exc_info=True)
