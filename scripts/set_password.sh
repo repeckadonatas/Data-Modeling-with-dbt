@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
-psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-    ALTER ROLE db_admin WITH PASSWORD '$POSTGRES_PASSWORD';
+psql -v ON_ERROR_STOP=1 --username "$PGUSER" --dbname "$POSTGRES_DB" <<-EOSQL
+    CREATE ROLE ${PGUSER} WITH LOGIN;
+    ALTER ROLE ${PGUSER} WITH PASSWORD '$PGPASSWORD';
 EOSQL
