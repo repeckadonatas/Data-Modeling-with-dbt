@@ -12,9 +12,8 @@ db_logger = log.app_logger(__name__)
 
 class DatabaseConnection:
     """
-    Database connection functions.
-    Used to create a connection with a database
-    and load data to it.
+    Database connection object.
+    Used to create a connection with a database.
     """
 
     def __init__(self):
@@ -47,8 +46,8 @@ class DatabaseConnection:
 
     def __enter__(self):
         """
-        Creates a connection to the database when main.py is run
-        and sets autocommit flag to True.
+        Creates a connection to a database.
+        Sets the autocommit flag to True.
         :return: connection to a database
         """
         try:
@@ -59,7 +58,7 @@ class DatabaseConnection:
         except (OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as err:
             db_logger.error("The following connection error has occurred: %s", err, exc_info=True)
             self.conn = None
-        return self.engine
+        return self.conn
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """
@@ -79,3 +78,15 @@ class DatabaseConnection:
         except (OperationalError, DatabaseError, DisconnectionError, DBAPIError,
                 AttributeError, exc_type, exc_val, exc_tb) as err:
             db_logger.error("Connection was not closed: %s\n", err, exc_info=True)
+
+
+if __name__ == '__main__':
+    """
+    To test the connection to a database.
+    """
+    with DatabaseConnection() as dc:
+        try:
+            if dc is not None:
+                db_logger.info('Success. Database URL: "%s"', dc.engine.url)
+        except (OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as err:
+            db_logger.error("The following connection error has occurred: %s", err, exc_info=True)
