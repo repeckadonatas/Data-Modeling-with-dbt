@@ -118,8 +118,11 @@ if __name__ == '__main__':
         for csv_file in csv_files:
             schema_name = schema_select(csv_file)
             if schema_name:
-                df = create_dataframe(spark, csv_file, schema_name)
-                df = add_timestamp(df)
-                df.show(5)
+                try:
+                    df = create_dataframe(spark, csv_file, schema_name)
+                    df = add_timestamp(df)
+                    df.show(5)
+                except PySparkException as err:
+                    staging_logger.warning('Error while processing file "%s": %s', csv_files, err, exc_info=True)
             else:
                 staging_logger.warning('Skipping file "%s" processing due to missing schema', csv_file)
