@@ -15,19 +15,19 @@ from src.db_functions.db_connection import db_logger, DatabaseConnection
 #     def __init__(self):
 #         super().__init__()
 
-def create_tables(engine: sqlalchemy.engine) -> None:
+def create_tables(engine: DatabaseConnection) -> None:
     """
     Creates tables in a database if they do not exist.
     :param engine: SQLAlchemy database engine.
     """
     try:
-        inspector = inspect(engine)
+        inspector = inspect(engine.engine)
 
         for table in db_tables.Base.metadata.tables.values():
             table_name = table.name
 
             if not inspector.has_table(table_name):
-                with engine.begin() as connection:
+                with engine.engine.begin() as connection:
                     table.create(connection)
                 db_logger.info('Table "%s" created successfully!', table_name)
             else:
@@ -37,13 +37,13 @@ def create_tables(engine: sqlalchemy.engine) -> None:
     except (SQLAlchemyError, OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as e:
         db_logger.error('An error occurred while creating tables: %s', e, exc_info=True)
 
-def get_tables_in_db(engine: sqlalchemy.engine) -> list:
+def get_tables_in_db(engine: DatabaseConnection) -> list:
     """
     Returns a list of all the tables in the database.
     :param engine: SQLAlchemy database engine.
     :return: List of tables in the database.
     """
-    inspect_db = inspect(engine)
+    inspect_db = inspect(engine.engine)
     tables_list = []
 
     for table in inspect_db.get_table_names():
@@ -51,7 +51,7 @@ def get_tables_in_db(engine: sqlalchemy.engine) -> list:
 
     return tables_list
 
-def load_to_database(engine: sqlalchemy.engine,
+def load_to_database(engine: DatabaseConnection,
                      dataframe: pyspark.sql.DataFrame,
                      table_name: str) -> None:
     """
@@ -62,21 +62,21 @@ def load_to_database(engine: sqlalchemy.engine,
     """
     try:
         dataframe.to_sql(table_name,
-                         con=engine,
+                         con=engine.engine,
                          if_exists='replace',
                          index=False)
 
-    except Exception as e:
+    except (SQLAlchemyError, OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as e:
         db_logger.error("An error occurred while loading the data: %s. "
                         "Rolling back the last transaction", e, exc_info=True)
-        engine.rollback()
+        engine.engine.rollback()
 
 
 if __name__ == '__main__':
 
     try:
-        engine = DatabaseConnection()
-        create_tables(engine)
-        get_tables_in_db(engine)
+        with DatabaseConnection() as dc:
+            create_tables(dc)
+            get_tables_in_db(dc)
     except SQLAlchemyError as e:
         db_logger.error('An error occurred while creating tables: %s', e, exc_info=True)
