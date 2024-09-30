@@ -19,7 +19,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      PGUSER: postgres
+      POSTGRES_USER: ${PGUSER}
       POSTGRES_PASSWORD: ${PGPASSWORD}
       POSTGRES_DB: ${PGDATABASE}
     healthcheck:
