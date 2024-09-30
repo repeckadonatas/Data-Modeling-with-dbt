@@ -59,7 +59,7 @@ class DatabaseConnection:
         except (OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as err:
             db_logger.error("The following connection error has occurred: %s", err, exc_info=True)
             self.conn = None
-        return self
+        return self.engine
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """
