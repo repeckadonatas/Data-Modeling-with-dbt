@@ -7,7 +7,7 @@ from pyspark.sql.functions import lit
 from pyspark.errors import PySparkException
 
 import src.logger as log
-from src.utils import read_dict, get_files_in_directory
+from src.utils import read_dict
 from src.constants import FILE_SCHEMA_DICT, PATH_TO_DATA_STORAGE
 
 staging_logger = log.app_logger(__name__)
@@ -109,20 +109,3 @@ def add_timestamp(dataframe: pyspark.sql.DataFrame) -> pyspark.sql.DataFrame:
     dataframe = dataframe.withColumn('timestamp', lit(date_now))
 
     return dataframe
-
-
-if __name__ == '__main__':
-    with SparkSessionManager() as spark:
-
-        csv_files = get_files_in_directory(PATH_TO_DATA_STORAGE)
-        for csv_file in csv_files:
-            schema_name = schema_select(csv_file)
-            if schema_name:
-                try:
-                    df = create_dataframe(spark, csv_file, schema_name)
-                    df = add_timestamp(df)
-                    df.show(5)
-                except PySparkException as err:
-                    staging_logger.warning('Error while processing file "%s": %s', csv_files, err, exc_info=True)
-            else:
-                staging_logger.warning('Skipping file "%s" processing due to missing schema', csv_file)
