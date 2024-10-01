@@ -63,17 +63,3 @@ def load_to_database(db_conn: DatabaseConnection,
         db_logger.error("An error occurred while loading the data: %s. "
                         "Rolling back the last transaction", e, exc_info=True)
         engine.rollback()
-
-
-if __name__ == '__main__':
-
-    try:
-        with DatabaseConnection() as dc:
-            if dc is not None:
-                create_tables(dc)
-                tables = get_tables_in_db(dc)
-                table_count = len(tables)
-                db_logger.info(f'\nFound %s table{"s" if table_count != 1 else ""} in a database:\n'
-                               '%s', table_count, tables)
-    except SQLAlchemyError as e:
-        db_logger.error('An error occurred while creating tables: %s', e, exc_info=True)
