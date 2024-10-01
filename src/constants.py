@@ -257,4 +257,20 @@ FILE_SCHEMA_DICT = {
     'status.csv':                ('STATUS_SCHEMA', STATUS_SCHEMA)
 }
 
-# SCHEMAS_LIST = [STATUS_SCHEMA]
+
+FILE_TABLE_MAP = {
+    'circuits.csv': 'circuits',
+    'constructor_results.csv': 'constructor_results',
+    'constructor_standings.csv': 'constructor_standings',
+    'constructors.csv': 'constructors',
+    'driver_standings.csv': 'driver_standings',
+    'drivers.csv': 'drivers',
+    'lap_times.csv': 'lap_times',
+    'pit_stops.csv': 'pit_stops',
+    'qualifying.csv': 'qualifying',
+    'races.csv': 'races',
+    'results.csv': 'results',
+    'seasons.csv': 'seasons',
+    'sprint_results.csv': 'sprint_results',
+    'status.csv': 'status'
+}
