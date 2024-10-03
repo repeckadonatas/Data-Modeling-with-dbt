@@ -10,8 +10,6 @@ RUN apt-get update && \
             software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
-#https://packages.adoptium.net/artifactory/api/gpg/key/public | apt-key add -
-
 # Adding Adoptium repository
 RUN wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null && \
     echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
@@ -33,13 +31,11 @@ ENV POETRY_HOME=/usr/local
 ENV POETRY_VIRTUALENVS_CREATE=false
 
 # Environment variables for Spark and JDK
-#ENV JAVA_HOME = /opt/java/openjdk
 ENV JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
 ENV PATH="${JAVA_HOME}/bin:${PATH}"
 
 ENV SPARK_VERSION=3.5.1
 ENV HADOOP_VERSION=3
-#ENV SPARK_HOME="/opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}"
 ENV SPARK_HOME=${SPARK_HOME:-"/opt/spark"}
 ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
 
@@ -62,7 +58,6 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry install --no-root
 
 # Spark installation
-#RUN curl https://dlcdn.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz -o spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz && \
 RUN curl "https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" -o "spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" && \
     tar -xvzf "spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" --directory ${SPARK_HOME} --strip-components 1 && \
     rm -rf "spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz"
