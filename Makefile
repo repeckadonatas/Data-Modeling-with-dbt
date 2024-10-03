@@ -1,5 +1,5 @@
 build-no-cache:
-	docker compose -f docker-compose.spark.yml build --no-cache
+	docker compose -f docker-compose.spark.yml build standalone_spark_cluster --no-cache
 
 up:
 	docker compose -f docker-compose.spark.yml up
