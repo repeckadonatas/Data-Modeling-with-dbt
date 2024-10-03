@@ -1,9 +1,12 @@
+# SPARK IMAGE BUILD
+x-spark-build-config: &build-config
+  context: .
+  dockerfile: dockerfiles/standalone_spark_cluster/spark.Dockerfile
+
 # COMMON SETTINGS FOR SPARK SERVICES
 x-spark-common: &spark-common
   #image: bitnami/spark:3.5.1
   image: standalone_spark_cluster
-  build:
-    context: ./dockerfiles/standalone_spark_cluster/spark.Dockerfile
   extra_hosts:
     - "host.docker.internal:172.17.0.1"
     - "host.docker.internal:172.18.0.3"
@@ -12,24 +15,15 @@ x-spark-common: &spark-common
     - ./logs:/opt/spark/spark-events
     - ./src/input:/opt/spark/data
     - .:/opt/spark/apps
-
 #  networks:
 #    - spark-network
-#  environment:
-## FOR SPARK-MASTER
-#    SPARK_RPC_AUTHENTICATION_ENABLED: no
-#    SPARK_RPC_ENCRYPTION_ENABLED: no
-#    SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
-#    SPARK_SSL_ENABLED: no
-#    SPARK_USER: spark
-#    SPARK_MASTER_HOST: spark-master
-#    SPARK_HOME: /opt/bitnami/spark
-## FOR SPARK-WORKER
-#    SPARK_WORKER_MEMORY: 2G      #<--- adjust accordingly
-#    SPARK_WORKER_CORES: 2
 
 
 services:
+
+  standalone_spark_cluster:
+    image: standalone_spark_cluster
+    build: *build-config
 
   spark-master:
     <<: *spark-common
@@ -43,12 +37,12 @@ services:
       interval: 5s
       timeout: 3s
       retries: 3
-    environment:
-      SPARK_MODE: master
-      SPARK_RPC_AUTHENTICATION_ENABLED: no
-      SPARK_RPC_ENCRYPTION_ENABLED: no
-      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
-      SPARK_SSL_ENABLED: no
+#    environment:
+#      SPARK_MODE: master
+#      SPARK_RPC_AUTHENTICATION_ENABLED: no
+#      SPARK_RPC_ENCRYPTION_ENABLED: no
+#      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
+#      SPARK_SSL_ENABLED: no
 
   spark-worker:
     <<: *spark-common
@@ -56,16 +50,15 @@ services:
     entrypoint: ['./entrypoint.sh', 'worker']
     depends_on:
       - spark-master
-    environment:
-      SPARK_MODE: worker
-      SPARK_MASTER_URL: spark://spark-master:7077
-      SPARK_WORKER_MEMORY: 2G
-      SPARK_WORKER_CORES: 1
-      SPARK_RPC_AUTHENTICATION_ENABLED: no
-      SPARK_RPC_ENCRYPTION_ENABLED: no
-      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
-      SPARK_SSL_ENABLED: no
-
+#    environment:
+#      SPARK_MODE: worker
+#      SPARK_MASTER_URL: spark://spark-master:7077
+#      SPARK_WORKER_MEMORY: 2G
+#      SPARK_WORKER_CORES: 1
+#      SPARK_RPC_AUTHENTICATION_ENABLED: no
+#      SPARK_RPC_ENCRYPTION_ENABLED: no
+#      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
+#      SPARK_SSL_ENABLED: no
 
 # JUPYTER FOR EASIER SETUP IN IDE
 #  jupyter:
@@ -81,8 +74,9 @@ services:
 #    volumes:
 #      - ./src/input:/home/jovyan/work
 
-volumes:
-  spark-logs:
+#volumes:
+#  spark-logs:
+
 
 #networks:
 #  spark-network:
