@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 from datetime import datetime
 from pathlib import Path
 
@@ -23,16 +20,11 @@ class SparkSessionManager:
         Starts a Spark Session.
         """
         try:
-            hadoop_home = tempfile.mkdtemp()
-            os.environ['HADOOP_HOME'] = hadoop_home
-            os.environ['SPARK_LOCAL_DIRS'] = hadoop_home
-
             self.spark = SparkSession.builder \
                 .appName('Sales Data Modelling') \
+                .master("spark://localhost:7077") \
                 .config("spark.jars", r"libs/postgresql-42.7.4.jar") \
-                .config("spark.hadoop.home.dir", hadoop_home) \
                 .getOrCreate()
-                # .master("local[*]") \
 
             staging_logger.info('Spark Session for "Sales Data Modelling" started')
 
