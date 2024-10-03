@@ -6,26 +6,24 @@
 src/__pycache__
 src/db_functions/__pycache__
 src/logger/__pycache__
-src/staging/pyspark_dataframes/__pycache__
 src/staging/__pycache__
+src/staging/pyspark_dataframes/__pycache__
 src/backup_functions/__pycache__/
 dags/__pycache__/
 
 # SRC FILES/FOLDERS
 src/input
-src/data/
-src/staging/pyspark_dataframes/data_normalization.ipynb
+src/output
 src/staging/pyspark_dataframes/.ipynb_checkpoints
 src/staging/pyspark_dataframes/*.ipynb
-
-# DAGs
-dockerfiles/airflow_dockerfiles/dags
 
 # OTHER FOLDERS
 logs/
 backups/
-plugins/
-secrets/
+scripts/
+dockerfiles/
+dbt/
+sql/
 
 # OTHER FILES
 airflow-compose.txt
