@@ -54,12 +54,22 @@ def load_to_database(db_conn: DatabaseConnection,
     """
     try:
         engine = db_conn.engine
-        dataframe.to_sql(table_name,
-                         con=engine,
-                         if_exists='replace',
-                         index=False)
+        jdbc_url = f'jdbc:postgresql://{engine.url.host}:{engine.url.port}/{engine.url.database}'
+
+        properties = {
+            "user": engine.url.username,
+            "password": engine.url.password,
+            "driver": "org.postgresql.Driver"
+        }
+
+        dataframe.write.jdbc(url=jdbc_url,
+                             table=table_name,
+                             mode="overwrite",
+                             properties=properties)
+
 
     except (SQLAlchemyError, OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as e:
         db_logger.error("An error occurred while loading the data: %s. "
                         "Rolling back the last transaction", e, exc_info=True)
-        engine.rollback()
+        # engine.rollback()
+        engine.dispose()
