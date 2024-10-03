@@ -5,6 +5,7 @@ description = "A project to practice using dimensional data modeling, dbt, Docke
 authors = ["repeckadonatas <repeckadonatas@yahoo.com>"]
 license = "MIT"
 readme = "README.md"
+include = ["libs/posgresql-42.7.4.jar"]
 
 [tool.poetry.dependencies]
 python = ">=3.11 <3.12"
