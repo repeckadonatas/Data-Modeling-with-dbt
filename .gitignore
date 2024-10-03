@@ -20,10 +20,6 @@ src/staging/pyspark_dataframes/*.ipynb
 # OTHER FOLDERS
 logs/
 backups/
-scripts/
-dockerfiles/
-dbt/
-sql/
 
 # OTHER FILES
 airflow-compose.txt
