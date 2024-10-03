@@ -1,12 +1,20 @@
 # COMMON SETTINGS FOR SPARK SERVICES
 x-spark-common: &spark-common
-  image: bitnami/spark:3.5.1
+  #image: bitnami/spark:3.5.1
+  image: standalone_spark_cluster
+  build:
+    context: ./dockerfiles/standalone_spark_cluster/spark.Dockerfile
   extra_hosts:
     - "host.docker.internal:172.17.0.1"
     - "host.docker.internal:172.18.0.3"
     - "host.docker.internal:host-gateway"
-  networks:
-    - spark-network
+  volumes:
+    - ./logs:/opt/spark/spark-events
+    - ./src/input:/opt/spark/data
+    - .:/opt/spark/apps
+
+#  networks:
+#    - spark-network
 #  environment:
 ## FOR SPARK-MASTER
 #    SPARK_RPC_AUTHENTICATION_ENABLED: no
@@ -29,6 +37,12 @@ services:
     ports:
       - "8080:8080"
       - "7077:7077"
+    entrypoint: ['./entrypoint.sh', 'master']
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
     environment:
       SPARK_MODE: master
       SPARK_RPC_AUTHENTICATION_ENABLED: no
@@ -39,6 +53,7 @@ services:
   spark-worker:
     <<: *spark-common
     container_name: spark-worker
+    entrypoint: ['./entrypoint.sh', 'worker']
     depends_on:
       - spark-master
     environment:
@@ -53,22 +68,22 @@ services:
 
 
 # JUPYTER FOR EASIER SETUP IN IDE
-  jupyter:
-    image: jupyter/pyspark-notebook:python-3.11
-    container_name: jupyter-notebook
-    ports:
-      - "8888:8888"
-      - "4040:4040"
-    networks:
-      - spark-network
-    environment:
-      - SPARK_OPTS="--master=spark://spark-master:7077"
-    volumes:
-      - ./src/input:/home/jovyan/work
+#  jupyter:
+#    image: jupyter/pyspark-notebook:python-3.11
+#    container_name: jupyter-notebook
+#    ports:
+#      - "8888:8888"
+#      - "4040:4040"
+#    networks:
+#      - spark-network
+#    environment:
+#      - SPARK_OPTS="--master=spark://spark-master:7077"
+#    volumes:
+#      - ./src/input:/home/jovyan/work
 
-#volumes:
-#  spark-data:
+volumes:
+  spark-logs:
 
-networks:
-  spark-network:
-    driver: bridge
+#networks:
+#  spark-network:
+#    driver: bridge
