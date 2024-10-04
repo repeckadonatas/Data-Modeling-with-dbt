@@ -59,8 +59,7 @@ def load_to_database(db_conn: DatabaseConnection,
         properties = {
             "user": engine.url.username,
             "password": engine.url.password,
-            "driver": "org.postgresql.Driver",
-            "ssl": "true"
+            "driver": "org.postgresql.Driver"
         }
 
         dataframe.write.jdbc(url=jdbc_url,
