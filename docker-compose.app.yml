@@ -8,6 +8,8 @@ x-app-common: &app-common
     PGPORT: ${PGPORT}
     PGDATABASE: ${PGDATABASE}
     PGHOST: ${PGHOST}
+  networks:
+    - spark-network
 
 
 services:
@@ -32,14 +34,11 @@ services:
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./scripts/set_password.sh:/docker-entrypoint-initdb.d/set_password.sh
 
-#  dbt:
-#    image: ghcr.io/dbt-labs/dbt-core:latest
-#    working_dir: /dbt
-#    command:
-#      - dbt run
-#    volumes:
-#      - .:/dbt
-
 volumes:
   sales-data-db:
     driver: local
+
+networks:
+  spark-network:
+    external: true
+    #driver: bridge
