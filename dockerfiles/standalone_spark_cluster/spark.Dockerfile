@@ -41,8 +41,8 @@ ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
 
 # Creating necessary directories
 RUN mkdir -p ${SPARK_HOME} && \
-    mkdir -p ${HADOOP_HOME} && \
-    mkdir libs
+    mkdir -p ${HADOOP_HOME}
+#    mkdir libs
 
 # Changing working directory
 WORKDIR ${SPARK_HOME}
@@ -80,7 +80,7 @@ COPY conf/spark-defaults.conf "$SPARK_HOME/conf/"
 # Setting binaries and scripts to be executable
 RUN chmod u+x /opt/spark/sbin/* && \
     chmod u+x /opt/spark/bin/* && \
-    chmod u+x /opt/spark/libs/* && \
+#    chmod u+x /opt/spark/libs/* && \
     chmod u+x /opt/spark/jars/*
 
 ENV PYTHONPATH=${SPARK_HOME}/python/:${PYTHONPATH}
