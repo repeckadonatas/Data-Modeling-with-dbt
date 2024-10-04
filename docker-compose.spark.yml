@@ -33,9 +33,7 @@ services:
     ports:
       - "8080:8080"
       - "7077:7077"
-    #entrypoint: ['./scripts/entrypoint.sh', 'master']
-    command: ['/opt/spark/entrypoint.sh', 'master']
-    #command: ['master']
+    entrypoint: ['/opt/spark/entrypoint.sh', 'master']
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
       interval: 5s
@@ -51,9 +49,7 @@ services:
   spark-worker:
     <<: *spark-common
     container_name: spark-worker
-    #entrypoint: ['./scripts/entrypoint.sh', 'worker']
-    command: ['/opt/spark/entrypoint.sh', 'worker']
-    #command: ['worker']
+    entrypoint: ['/opt/spark/entrypoint.sh', 'worker']
     depends_on:
       - spark-master
     environment:
