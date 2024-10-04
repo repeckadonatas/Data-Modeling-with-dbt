@@ -7,6 +7,8 @@ x-spark-build-config: &build-config
 x-spark-common: &spark-common
   #image: bitnami/spark:3.5.1
   image: standalone_spark_cluster
+  env_file:
+    - .env.spark
   extra_hosts:
     - "host.docker.internal:172.17.0.1"
     - "host.docker.internal:172.18.0.3"
@@ -31,34 +33,38 @@ services:
     ports:
       - "8080:8080"
       - "7077:7077"
-    entrypoint: ['./entrypoint.sh', 'master']
+    #entrypoint: ['./scripts/entrypoint.sh', 'master']
+    command: ['/opt/spark/entrypoint.sh', 'master']
+    #command: ['master']
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080" ]
       interval: 5s
       timeout: 3s
       retries: 3
-#    environment:
-#      SPARK_MODE: master
-#      SPARK_RPC_AUTHENTICATION_ENABLED: no
-#      SPARK_RPC_ENCRYPTION_ENABLED: no
-#      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
-#      SPARK_SSL_ENABLED: no
+    environment:
+      SPARK_MODE: master
+      SPARK_RPC_AUTHENTICATION_ENABLED: no
+      SPARK_RPC_ENCRYPTION_ENABLED: no
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
+      SPARK_SSL_ENABLED: no
 
   spark-worker:
     <<: *spark-common
     container_name: spark-worker
-    entrypoint: ['./entrypoint.sh', 'worker']
+    #entrypoint: ['./scripts/entrypoint.sh', 'worker']
+    command: ['/opt/spark/entrypoint.sh', 'worker']
+    #command: ['worker']
     depends_on:
       - spark-master
-#    environment:
-#      SPARK_MODE: worker
-#      SPARK_MASTER_URL: spark://spark-master:7077
-#      SPARK_WORKER_MEMORY: 2G
-#      SPARK_WORKER_CORES: 1
-#      SPARK_RPC_AUTHENTICATION_ENABLED: no
-#      SPARK_RPC_ENCRYPTION_ENABLED: no
-#      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
-#      SPARK_SSL_ENABLED: no
+    environment:
+      SPARK_MODE: worker
+      SPARK_MASTER_URL: spark://spark-master:7077
+      SPARK_WORKER_MEMORY: 2G
+      SPARK_WORKER_CORES: 1
+      SPARK_RPC_AUTHENTICATION_ENABLED: no
+      SPARK_RPC_ENCRYPTION_ENABLED: no
+      SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
+      SPARK_SSL_ENABLED: no
 
 # JUPYTER FOR EASIER SETUP IN IDE
 #  jupyter:
