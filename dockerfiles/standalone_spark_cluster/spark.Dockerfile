@@ -87,5 +87,3 @@ RUN chmod u+x $SPARK_HOME/entrypoint.sh
 RUN ls -l $SPARK_HOME/entrypoint.sh
 
 ENTRYPOINT ["/opt/spark/entrypoint.sh"]
-
-#CMD ["/bin/bash", "${SPARK_HOME}/entrypoint.sh"]
