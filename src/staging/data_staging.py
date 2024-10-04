@@ -24,6 +24,7 @@ class SparkSessionManager:
                 .appName('Sales Data Modelling') \
                 .master("spark://spark-master:7077") \
                 .config("spark.jars", r"libs/postgresql-42.7.4.jar") \
+                .config("spark.jars.packages", "org.postgresql:postgresql:42.7.4") \
                 .getOrCreate()
 
             staging_logger.info('Spark Session for "Sales Data Modelling" started')
