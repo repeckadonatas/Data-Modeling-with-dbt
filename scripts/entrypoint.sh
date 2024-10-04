@@ -17,17 +17,3 @@ then
 
   start-worker.sh spark://spark-master:7077 --webui-port "$WORKER_PORT"
 fi
-
-#case $SPARK_WORKLOAD in
-#  master)
-#    exec start-master.sh -p 7077
-#    ;;
-#  worker)
-#    exec start-worker.sh spark://spark-master:7077
-#    ;;
-#  *)
-#    echo "Invalid SPARK_WORKLOAD: $SPARK_WORKLOAD"
-#    echo "Usage: $0 {master|worker}"
-#    exit 1
-#    ;;
-#esac
