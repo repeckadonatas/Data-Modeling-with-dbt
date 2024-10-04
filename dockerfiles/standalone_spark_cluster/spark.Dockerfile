@@ -79,8 +79,13 @@ COPY conf/spark-defaults.conf "$SPARK_HOME/conf/"
 RUN chmod u+x /opt/spark/sbin/* && \
     chmod u+x /opt/spark/bin/*
 
-ENV PYTHONPATH=$SPARK_HOME/python/:$PYTHONPATH
+ENV PYTHONPATH=${SPARK_HOME}/python/:${PYTHONPATH}
 
-COPY scripts/entrypoint.sh .
+COPY scripts/entrypoint.sh $SPARK_HOME/
 
-ENTRYPOINT ["./entrypoint.sh"]
+RUN chmod u+x $SPARK_HOME/entrypoint.sh
+RUN ls -l $SPARK_HOME/entrypoint.sh
+
+ENTRYPOINT ["/opt/spark/entrypoint.sh"]
+
+#CMD ["/bin/bash", "${SPARK_HOME}/entrypoint.sh"]
