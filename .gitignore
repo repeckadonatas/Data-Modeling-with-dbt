@@ -1,6 +1,7 @@
 .venv
 .idea
 .env
+.env.spark
 
 # __pycache__
 src/__pycache__
