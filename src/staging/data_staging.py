@@ -22,7 +22,7 @@ class SparkSessionManager:
         try:
             self.spark = SparkSession.builder \
                 .appName('Sales Data Modelling') \
-                .master("spark://localhost:7077") \
+                .master("spark://spark-master:7077") \
                 .config("spark.jars", r"libs/postgresql-42.7.4.jar") \
                 .getOrCreate()
 
