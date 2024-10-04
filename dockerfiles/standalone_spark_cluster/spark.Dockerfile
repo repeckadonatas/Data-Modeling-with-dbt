@@ -84,6 +84,5 @@ ENV PYTHONPATH=${SPARK_HOME}/python/:${PYTHONPATH}
 COPY scripts/entrypoint.sh $SPARK_HOME/
 
 RUN chmod u+x $SPARK_HOME/entrypoint.sh
-RUN ls -l $SPARK_HOME/entrypoint.sh
 
 ENTRYPOINT ["/opt/spark/entrypoint.sh"]
