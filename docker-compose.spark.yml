@@ -9,16 +9,18 @@ x-spark-common: &spark-common
   image: standalone_spark_cluster
   env_file:
     - .env.spark
-  extra_hosts:
-    - "host.docker.internal:172.17.0.1"
-    - "host.docker.internal:172.18.0.3"
-    - "host.docker.internal:host-gateway"
+    - .env
+#  extra_hosts:
+#    - "host.docker.internal:172.17.0.1"
+#    - "host.docker.internal:172.18.0.3"
+#    - "host.docker.internal:host-gateway"
   volumes:
+    - ./libs/postgresql-42.7.4.jar:/opt/spark/jars/postgresql-42.7.4.jar
     - ./logs:/opt/spark/spark-events
     - ./src/input:/opt/spark/data
     - .:/opt/spark/apps
-#  networks:
-#    - spark-network
+  networks:
+    - spark-network
 
 
 services:
@@ -62,6 +64,12 @@ services:
       SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: no
       SPARK_SSL_ENABLED: no
 
+networks:
+  spark-network:
+    external: true
+    #driver: bridge
+
+
 # JUPYTER FOR EASIER SETUP IN IDE
 #  jupyter:
 #    image: jupyter/pyspark-notebook:python-3.11
@@ -78,8 +86,3 @@ services:
 
 #volumes:
 #  spark-logs:
-
-
-#networks:
-#  spark-network:
-#    driver: bridge
