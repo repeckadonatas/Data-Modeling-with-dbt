@@ -30,7 +30,9 @@ def run_spark_session(queue: Queue,
                     else:
                         main_logger.warning('Skipping file "%s" processing due to missing schema', csv_file)
 
+            # queue.put(None)
             event.set()
+            # event.wait()
     except PySparkException as err:
         main_logger.error('Spark Error: %s', err, exc_info=True)
 
@@ -50,6 +52,10 @@ def run_db_operations(queue: Queue,
                     while not event.is_set() or not queue.empty():
                         main_logger.info('Getting data from queue...')
                         file_name, dataframe = queue.get(timeout=5)
+                        if file_name is None:
+                            main_logger.warning('Queue is empty...')
+                            break
+
                         file_data_to_table = determine_table_name(file_name, FILE_TABLE_MAP)
                         for table in file_data_to_table:
                             load_to_database(dc, dataframe, table)
@@ -73,4 +79,4 @@ if __name__ == '__main__':
     except (CancelledError, TimeoutError, BrokenExecutor) as err:
         main_logger.error('An error occurred: %s\n', err, exc_info=True)
 
-    main_logger.info('Data uploaded successfully.\n')
+    main_logger.info('Data upload complete.\n')
