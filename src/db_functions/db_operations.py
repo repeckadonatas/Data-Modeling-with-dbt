@@ -54,19 +54,9 @@ def load_to_database(db_conn: DatabaseConnection,
     """
     try:
         engine = db_conn.engine
-        jdbc_url = f'jdbc:postgresql://{engine.url.host}:{engine.url.port}/{engine.url.database}'
+        dataframe = dataframe.toPandas()
 
-        properties = {
-            "user": engine.url.username,
-            "password": engine.url.password,
-            "driver": "org.postgresql.Driver"
-        }
-
-        dataframe.write.jdbc(url=jdbc_url,
-                             table=table_name,
-                             mode="overwrite",
-                             properties=properties)
-
+        dataframe.to_sql(table_name, engine, index=False, if_exists='replace')
 
     except (SQLAlchemyError, OperationalError, DatabaseError, DisconnectionError, DBAPIError, AttributeError) as e:
         db_logger.error("An error occurred while loading the data: %s. "
