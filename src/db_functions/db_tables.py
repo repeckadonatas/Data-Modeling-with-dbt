@@ -66,9 +66,9 @@ class RacesTable(Base):
     __tablename__ = 'races'
 
     race_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_year = Column(Integer(), ForeignKey('seasons.year'), nullable=False)    #TODO
+    race_year = Column(Integer(), ForeignKey('seasons.year', ondelete='CASCADE'), nullable=False)
     round = Column(Integer(), default=0)
-    circuit_id = Column(Integer(), ForeignKey('circuits.circuit_id'), nullable=False)    #TODO
+    circuit_id = Column(Integer(), ForeignKey('circuits.circuit_id', ondelete='CASCADE'), nullable=False)
     race_name = Column(String(), nullable=False)
     race_date = Column(DateTime(), nullable=False, default=0000-00-0)
     race_start_time = Column(String())
@@ -90,9 +90,9 @@ class QualifyingTable(Base):
     __tablename__ = 'qualifying'
 
     qualify_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
-    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
+    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id', ondelete='CASCADE'), nullable=False)
     driver_number = Column(Integer(), nullable=False, default=0)
     qualify_position = Column(Integer(), default=None)
     q1_lap_time = Column(String(), default=None)
@@ -105,9 +105,9 @@ class ResultsTable(Base):
     __tablename__ = 'results'
 
     result_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
-    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
+    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id', ondelete='CASCADE'), nullable=False)
     driver_number = Column(Integer(), default=0)
     grid_position = Column(Integer(), nullable=False, default=0)
     official_position = Column(Integer(), default=None)
@@ -121,7 +121,7 @@ class ResultsTable(Base):
     fastest_lap_rank = Column(Integer(), default=0)
     fastest_lap_time = Column(String(), default=None)
     fastest_lap_speed = Column(String(), default=None)
-    status_id = Column(Integer(), ForeignKey('status.status_id'), nullable=False)
+    status_id = Column(Integer(), ForeignKey('status.status_id', ondelete='CASCADE'), nullable=False)
     timestamp = Column(DateTime(timezone=True))
 
 
@@ -129,8 +129,8 @@ class DriverStandingsTable(Base):
     __tablename__ = 'driver_standings'
 
     driver_standings_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
     points = Column(Float(), default=0)
     position = Column(Integer(), default=None)
     position_text = Column(String(), default=None)
@@ -142,9 +142,9 @@ class SprintResultsTable(Base):
     __tablename__ = 'sprint_results'
 
     sprint_result_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
-    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
+    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id', ondelete='CASCADE'), nullable=False)
     driver_number = Column(Integer(), default=None)
     grid_position = Column(Integer(), nullable=False, default=0)
     official_position = Column(Integer(), default=None)
@@ -156,7 +156,7 @@ class SprintResultsTable(Base):
     milliseconds = Column(Integer(), default=None)
     fastest_lap = Column(Integer(), default=None)
     fastest_lap_time = Column(String(), default=None)
-    status_id = Column(Integer(), ForeignKey('status.status_id'), nullable=False)
+    status_id = Column(Integer(), ForeignKey('status.status_id', ondelete='CASCADE'), nullable=False)
     timestamp = Column(DateTime(timezone=True))
 
 
@@ -164,8 +164,8 @@ class LapTimesTable(Base):
     __tablename__ = 'lap_times'
 
     lap_times_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
     lap = Column(Integer(), nullable=False, default=None)
     driver_position = Column(Integer(), default=None)
     lap_time = Column(String(), default=None)
@@ -177,8 +177,8 @@ class PitStopsTable(Base):
     __tablename__ = 'pit_stops'
 
     pit_stops_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    driver_id = Column(Integer(), ForeignKey('drivers.driver_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
     pit_stop_number = Column(Integer(), nullable=False, default=None)
     lap_number = Column(Integer(), nullable=False, default=None)
     time_of_stop = Column(String(), nullable=False, default=None)
@@ -191,8 +191,8 @@ class ConstructorResultsTable(Base):
     __tablename__ = 'constructor_results'
 
     constructor_result_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id', ondelete='CASCADE'), nullable=False)
     points = Column(Float(), default=None)
     status = Column(String(), default=None)
     timestamp = Column(DateTime(timezone=True))
@@ -202,8 +202,8 @@ class ConstructorStandingsTable(Base):
     __tablename__ = 'constructor_standings'
 
     constructor_standings_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
-    race_id = Column(Integer(), ForeignKey('races.race_id'), nullable=False)
-    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id'), nullable=False)
+    race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
+    constructor_id = Column(Integer(), ForeignKey('constructors.constructor_id', ondelete='CASCADE'), nullable=False)
     constructor_points = Column(Float(), default=None)
     constructor_position = Column(Integer(), default=None)
     position_text = Column(String(), default=None)
