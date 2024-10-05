@@ -43,32 +43,29 @@ def run_db_operations(queue: Queue,
                 if dc is not None:
                     create_tables(dc)
                     tables = get_tables_in_db(dc)
-
-                    valid_tables = set(FILE_TABLE_MAP.values())
-                    existing_valid_tables = [table for table in tables if table in valid_tables]
-                    table_count = len(existing_valid_tables)
-
-                    # table_count = len(tables)
+                    table_count = len(tables)
                     main_logger.info(f'Found %s table{"s" if table_count != 1 else ""} in a database:\n'
                                    '%s', table_count, tables)
 
                     while not event.is_set() or not queue.empty():
                         main_logger.info('Getting data from queue...')
-                        file_name, dataframe = queue.get(timeout=5)
-                        # print(f'\n{file_name, dataframe}\n')
-                        if file_name is None:
+                        queue_items = queue.get(timeout=5)
+                        if queue_items is None:
                             main_logger.warning('Queue is empty...')
                             break
 
-                        table_name, table = determine_table_name(file_name, FILE_TABLE_MAP)
-                        if table_name in existing_valid_tables:
+                        table_select = read_dict(FILE_TABLE_MAP)
+                        fname, dataframe = queue_items
+                        for file_name, (table_name, table) in table_select:
+                            if file_name == fname:
 
-                            load_to_database(dc, dataframe, table)
-                            main_logger.info('Dataframe "%s" loaded to table "%s" successfully!', file_name, table_name)
+                                load_to_database(dc, dataframe, table)
+                                main_logger.info('Dataframe "%s" loaded to table "%s" successfully!', file_name,
+                                                 table_name)
 
-                        else:
-                            main_logger.warning('Dataframe "%s" did not match table "%s"', file_name, table_name)
-                            print(f'\n{table_name, table}\n')
+                            else:
+                                main_logger.warning('Dataframe "%s" did not match table "%s"', file_name, table_name)
+                                print(f'\n{table_name, table}\n')
 
         except SQLAlchemyError as e:
             main_logger.error('An error occurred: %s', e, exc_info=True)
