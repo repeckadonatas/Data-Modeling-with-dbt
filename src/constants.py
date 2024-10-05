@@ -21,11 +21,10 @@ DATETIME_NOW = datetime.now().strftime("%Y%m%d_%H%M")
 LOG_TIME = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 FORMATTER = logging.Formatter(f'{LOG_TIME} :: %(name)s :: %(levelname)s :: %(funcName)s :: %(message)s')
-# PROJECT_ROOT = Path(__file__).cwd()
+
 PROJECT_ROOT = project_root(Path(__file__).resolve().parent, '.gitignore')
 PATH_TO_LOGS = PROJECT_ROOT / 'logs'
-# PATH_TO_LOGS = Path(__file__).cwd()
-# LOG_FILE = PATH_TO_LOGS / 'logs/' / ("app_logger_" + datetime.today().strftime("%Y%m%d") + ".log")
+
 LOG_FILE = PATH_TO_LOGS / ("app_logger_" + datetime.today().strftime("%Y%m%d") + ".log")
 
 
@@ -65,28 +64,6 @@ CIRCUITS_SCHEMA = StructType(
     ]
 )
 
-CONSTRUCTOR_RESULTS_SCHEMA = StructType(
-    [
-        StructField('constructor_results_id', IntegerType(), False),
-        StructField('race_id', IntegerType(), False),
-        StructField('constructor_id', IntegerType(), False),
-        StructField('points', DoubleType(), True),
-        StructField('status', StringType(), True),
-    ]
-)
-
-CONSTRUCTOR_STANDINGS_SCHEMA = StructType(
-    [
-        StructField('constructor_standings_id', IntegerType(), False),
-        StructField('race_id', IntegerType(), False),
-        StructField('constructor_id', IntegerType(), False),
-        StructField('constructor_points', DoubleType(), True),
-        StructField('constructor_position', IntegerType(), True),
-        StructField('position_text', IntegerType(), True),
-        StructField('constructor_wins', IntegerType(), False),
-    ]
-)
-
 CONSTRUCTORS_SCHEMA = StructType(
     [
         StructField('constructor_id', IntegerType(), False),
@@ -94,18 +71,6 @@ CONSTRUCTORS_SCHEMA = StructType(
         StructField('constructor_name', StringType(), True),
         StructField('constructor_nationality', StringType(), True),
         StructField('constructor_url', StringType(), True)
-    ]
-)
-
-DRIVER_STANDINGS_SCHEMA = StructType(
-    [
-        StructField('driver_standings_id', IntegerType(), False),
-        StructField('race_id', IntegerType(), False),
-        StructField('driver_id', IntegerType(), False),
-        StructField('driver_points', DoubleType(), True),
-        StructField('driver_position', IntegerType(), True),
-        StructField('position_text', IntegerType(), True),
-        StructField('driver_wins', IntegerType(), False),
     ]
 )
 
@@ -123,40 +88,17 @@ DRIVERS_SCHEMA = StructType(
     ]
 )
 
-LAP_TIMES_SCHEMA = StructType(
+SEASONS_SCHEMA = StructType(
     [
-        StructField('race_id', IntegerType(), False),
-        StructField('driver_id', IntegerType(), False),
-        StructField('lap', IntegerType(), False),
-        StructField('driver_position', IntegerType(), True),
-        StructField('lap_time', StringType(), True),
-        StructField('milliseconds', IntegerType(), True)
+        StructField('year', IntegerType(), False),
+        StructField('url', StringType(), False)
     ]
 )
 
-PIT_STOPS_SCHEMA = StructType(
+STATUS_SCHEMA = StructType(
     [
-        StructField('race_id', IntegerType(), False),
-        StructField('driver_id', IntegerType(), False),
-        StructField('pit_stop_number', IntegerType(), False),
-        StructField('lap', IntegerType(), False),
-        StructField('time_of_stop', StringType(), False),
-        StructField('stop_duration', StringType(), True),
-        StructField('milliseconds', IntegerType(), True)
-    ]
-)
-
-QUALIFYING_SCHEMA = StructType(
-    [
-        StructField('qualify_id', IntegerType(), False),
-        StructField('race_id', IntegerType(), False),
-        StructField('driver_id', IntegerType(), False),
-        StructField('constructor_id', IntegerType(), False),
-        StructField('driver_number', IntegerType(), False),
-        StructField('qualify_position', IntegerType(), True),
-        StructField('q1_lap_time', StringType(), True),
-        StructField('q2_lap_time', StringType(), True),
-        StructField('q3_lap_time', StringType(), True),
+        StructField('status_id', IntegerType(), False),
+        StructField('status', StringType(), False)
     ]
 )
 
@@ -183,6 +125,20 @@ RACES_SCHEMA = StructType(
     ]
 )
 
+QUALIFYING_SCHEMA = StructType(
+    [
+        StructField('qualify_id', IntegerType(), False),
+        StructField('race_id', IntegerType(), False),
+        StructField('driver_id', IntegerType(), False),
+        StructField('constructor_id', IntegerType(), False),
+        StructField('driver_number', IntegerType(), False),
+        StructField('qualify_position', IntegerType(), True),
+        StructField('q1_lap_time', StringType(), True),
+        StructField('q2_lap_time', StringType(), True),
+        StructField('q3_lap_time', StringType(), True),
+    ]
+)
+
 RESULTS_SCHEMA = StructType(
     [
         StructField('result_id', IntegerType(), False),
@@ -206,10 +162,15 @@ RESULTS_SCHEMA = StructType(
     ]
 )
 
-SEASONS_SCHEMA = StructType(
+DRIVER_STANDINGS_SCHEMA = StructType(
     [
-        StructField('year', IntegerType(), False),
-        StructField('url', StringType(), False)
+        StructField('driver_standings_id', IntegerType(), False),
+        StructField('race_id', IntegerType(), False),
+        StructField('driver_id', IntegerType(), False),
+        StructField('driver_points', DoubleType(), True),
+        StructField('driver_position', IntegerType(), True),
+        StructField('position_text', IntegerType(), True),
+        StructField('driver_wins', IntegerType(), False),
     ]
 )
 
@@ -234,12 +195,53 @@ SPRINT_RESULTS_SCHEMA = StructType(
     ]
 )
 
-STATUS_SCHEMA = StructType(
+LAP_TIMES_SCHEMA = StructType(
     [
-        StructField('status_id', IntegerType(), False),
-        StructField('status', StringType(), False)
+        StructField('lap_times_id', IntegerType(), False),
+        StructField('race_id', IntegerType(), False),
+        StructField('driver_id', IntegerType(), False),
+        StructField('lap', IntegerType(), False),
+        StructField('driver_position', IntegerType(), True),
+        StructField('lap_time', StringType(), True),
+        StructField('milliseconds', IntegerType(), True)
     ]
 )
+
+PIT_STOPS_SCHEMA = StructType(
+    [
+        StructField('pit_stops_id', IntegerType(), False),
+        StructField('race_id', IntegerType(), False),
+        StructField('driver_id', IntegerType(), False),
+        StructField('pit_stop_number', IntegerType(), False),
+        StructField('lap', IntegerType(), False),
+        StructField('time_of_stop', StringType(), False),
+        StructField('stop_duration', StringType(), True),
+        StructField('milliseconds', IntegerType(), True)
+    ]
+)
+
+CONSTRUCTOR_RESULTS_SCHEMA = StructType(
+    [
+        StructField('constructor_results_id', IntegerType(), False),
+        StructField('race_id', IntegerType(), False),
+        StructField('constructor_id', IntegerType(), False),
+        StructField('points', DoubleType(), True),
+        StructField('status', StringType(), True),
+    ]
+)
+
+CONSTRUCTOR_STANDINGS_SCHEMA = StructType(
+    [
+        StructField('constructor_standings_id', IntegerType(), False),
+        StructField('race_id', IntegerType(), False),
+        StructField('constructor_id', IntegerType(), False),
+        StructField('constructor_points', DoubleType(), True),
+        StructField('constructor_position', IntegerType(), True),
+        StructField('position_text', IntegerType(), True),
+        StructField('constructor_wins', IntegerType(), False),
+    ]
+)
+
 
 FILE_SCHEMA_DICT = {
     'circuits.csv':              ('CIRCUITS_SCHEMA', CIRCUITS_SCHEMA),
@@ -260,18 +262,18 @@ FILE_SCHEMA_DICT = {
 
 
 FILE_TABLE_MAP = {
-    'circuits.csv': ('circuits', CircuitsTable),
-    'constructor_results.csv': ('constructor_results', ConstructorResultsTable),
+    'circuits.csv':              ('circuits', CircuitsTable),
+    'constructor_results.csv':   ('constructor_results', ConstructorResultsTable),
     'constructor_standings.csv': ('constructor_standings', ConstructorStandingsTable),
-    'constructors.csv': ('constructors', ConstructorsTable),
-    'driver_standings.csv': ('driver_standings', DriverStandingsTable),
-    'drivers.csv': ('drivers', DriversTable),
-    'lap_times.csv': ('lap_times', LapTimesTable),
-    'pit_stops.csv': ('pit_stops', PitStopsTable),
-    'qualifying.csv': ('qualifying', QualifyingTable),
-    'races.csv': ('races', RacesTable),
-    'results.csv': ('results', ResultsTable),
-    'seasons.csv': ('seasons', SeasonsTable),
-    'sprint_results.csv': ('sprint_results', SprintResultsTable),
-    'status.csv': ('status', StatusTable)
+    'constructors.csv':          ('constructors', ConstructorsTable),
+    'driver_standings.csv':      ('driver_standings', DriverStandingsTable),
+    'drivers.csv':               ('drivers', DriversTable),
+    'lap_times.csv':             ('lap_times', LapTimesTable),
+    'pit_stops.csv':             ('pit_stops', PitStopsTable),
+    'qualifying.csv':            ('qualifying', QualifyingTable),
+    'races.csv':                 ('races', RacesTable),
+    'results.csv':               ('results', ResultsTable),
+    'seasons.csv':               ('seasons', SeasonsTable),
+    'sprint_results.csv':        ('sprint_results', SprintResultsTable),
+    'status.csv':                ('status', StatusTable)
 }
