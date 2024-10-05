@@ -54,18 +54,15 @@ def run_db_operations(queue: Queue,
                             main_logger.warning('Queue is empty...')
                             break
 
-                        table_select = read_dict(FILE_TABLE_MAP)
-                        fname, dataframe = queue_items
-                        for file_name, (table_name, table) in table_select:
-                            if file_name == fname:
-
-                                load_to_database(dc, dataframe, table)
-                                main_logger.info('Dataframe "%s" loaded to table "%s" successfully!', file_name,
-                                                 table_name)
-
-                            else:
-                                main_logger.warning('Dataframe "%s" did not match table "%s"', file_name, table_name)
-                                print(f'\n{table_name, table}\n')
+                        file_name, dataframe = queue_items
+                        if file_name in FILE_TABLE_MAP:
+                            table_name, table = FILE_TABLE_MAP[file_name]
+                            load_to_database(dc, dataframe, table_name)
+                            main_logger.info('Dataframe "%s" loaded to table "%s" successfully!', file_name,
+                                             table_name)
+                        else:
+                            main_logger.warning('Dataframe "%s" did not match table "%s"', file_name, table_name)
+                            print(f'\n{table_name, table}\n')
 
         except SQLAlchemyError as e:
             main_logger.error('An error occurred: %s', e, exc_info=True)
