@@ -67,7 +67,7 @@ def remove_files_in_directory(dir_path: str) -> None:
 
 
 def determine_table_name(file_name: str,
-                         table_mapping: dict) -> (str | None):
+                         table_mapping: dict) -> tuple | None:
     """
     To map the correct dataframe with the table to load the data to.
     The function is used to make sure that the data of a dataframe
@@ -77,6 +77,7 @@ def determine_table_name(file_name: str,
     :param table_mapping: a dictionary with dataframe names and matching table names.
     """
     file_name_lower = file_name.lower()
-    for prefix, table in table_mapping.items():
+    for prefix, (table_name, table) in table_mapping.items():
         if file_name_lower.startswith(prefix.lower()):
-            return table
+            return table_name, table
+    return None
