@@ -42,19 +42,14 @@ ENV HADOOP_HOME=${HADOOP_HOME:-"/opt/hadoop"}
 # Creating necessary directories
 RUN mkdir -p ${SPARK_HOME} && \
     mkdir -p ${HADOOP_HOME}
-#    mkdir libs
 
 # Changing working directory
 WORKDIR ${SPARK_HOME}
-
-# JAR file for JDBC connection
-COPY libs/postgresql-42.7.4.jar "${SPARK_HOME}/jars/"
 
 # Installing Poetry
 RUN curl -sSL https://install.python-poetry.org | python3 - --version=$POETRY_VERSION
 
 COPY poetry.lock pyproject.toml ./
-COPY src ${SPARK_HOME}/src/
 
 # Installing dependencies
 RUN poetry install --no-root
@@ -79,9 +74,7 @@ COPY conf/spark-defaults.conf "$SPARK_HOME/conf/"
 
 # Setting binaries and scripts to be executable
 RUN chmod u+x /opt/spark/sbin/* && \
-    chmod u+x /opt/spark/bin/* && \
-#    chmod u+x /opt/spark/libs/* && \
-    chmod u+x /opt/spark/jars/*
+    chmod u+x /opt/spark/bin/*
 
 ENV PYTHONPATH=${SPARK_HOME}/python/:${PYTHONPATH}
 
