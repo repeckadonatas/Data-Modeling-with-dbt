@@ -9,6 +9,7 @@ from pyspark.sql.types import (StructType, StructField, StringType, IntegerType,
                                DoubleType, DateType)
 
 from src.utils import project_root, Path
+from src.db_functions.db_tables import *
 
 
 # DATE
@@ -259,18 +260,18 @@ FILE_SCHEMA_DICT = {
 
 
 FILE_TABLE_MAP = {
-    'circuits.csv': 'circuits',
-    'constructor_results.csv': 'constructor_results',
-    'constructor_standings.csv': 'constructor_standings',
-    'constructors.csv': 'constructors',
-    'driver_standings.csv': 'driver_standings',
-    'drivers.csv': 'drivers',
-    'lap_times.csv': 'lap_times',
-    'pit_stops.csv': 'pit_stops',
-    'qualifying.csv': 'qualifying',
-    'races.csv': 'races',
-    'results.csv': 'results',
-    'seasons.csv': 'seasons',
-    'sprint_results.csv': 'sprint_results',
-    'status.csv': 'status'
+    'circuits.csv': ('circuits', CircuitsTable),
+    'constructor_results.csv': ('constructor_results', ConstructorResultsTable),
+    'constructor_standings.csv': ('constructor_standings', ConstructorStandingsTable),
+    'constructors.csv': ('constructors', ConstructorsTable),
+    'driver_standings.csv': ('driver_standings', DriverStandingsTable),
+    'drivers.csv': ('drivers', DriversTable),
+    'lap_times.csv': ('lap_times', LapTimesTable),
+    'pit_stops.csv': ('pit_stops', PitStopsTable),
+    'qualifying.csv': ('qualifying', QualifyingTable),
+    'races.csv': ('races', RacesTable),
+    'results.csv': ('results', ResultsTable),
+    'seasons.csv': ('seasons', SeasonsTable),
+    'sprint_results.csv': ('sprint_results', SprintResultsTable),
+    'status.csv': ('status', StatusTable)
 }
