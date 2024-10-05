@@ -2,21 +2,7 @@ from sqlalchemy import Column, String, Float, Integer, DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 
-import src.logger as log
-
-tables_logger = log.app_logger(__name__)
-
 Base = declarative_base()
-
-
-# class StagingLayerTable(Base):
-#     __tablename__ = 'staging_jobs_listings_data'
-#     __table_args__ = {'schema': 'staging'}
-#
-#     id = Column(Integer, primary_key=True, autoincrement=True)
-#     api_source = Column(String())
-#     timestamp = Column(DateTime(timezone=True))
-#     data = Column(JSONB())
 
 
 class CircuitsTable(Base):
