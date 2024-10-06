@@ -5,15 +5,10 @@ x-spark-build-config: &build-config
 
 # COMMON SETTINGS FOR SPARK SERVICES
 x-spark-common: &spark-common
-  #image: bitnami/spark:3.5.1
   image: standalone_spark_cluster
   env_file:
     - .env.spark
     - .env
-#  extra_hosts:
-#    - "host.docker.internal:172.17.0.1"
-#    - "host.docker.internal:172.18.0.3"
-#    - "host.docker.internal:host-gateway"
   volumes:
     - ./libs/postgresql-42.7.4.jar:/opt/spark/jars/postgresql-42.7.4.jar
     - ./logs:/opt/spark/spark-events
@@ -67,22 +62,3 @@ services:
 networks:
   spark-network:
     external: true
-    #driver: bridge
-
-
-# JUPYTER FOR EASIER SETUP IN IDE
-#  jupyter:
-#    image: jupyter/pyspark-notebook:python-3.11
-#    container_name: jupyter-notebook
-#    ports:
-#      - "8888:8888"
-#      - "4040:4040"
-#    networks:
-#      - spark-network
-#    environment:
-#      - SPARK_OPTS="--master=spark://spark-master:7077"
-#    volumes:
-#      - ./src/input:/home/jovyan/work
-
-#volumes:
-#  spark-logs:
