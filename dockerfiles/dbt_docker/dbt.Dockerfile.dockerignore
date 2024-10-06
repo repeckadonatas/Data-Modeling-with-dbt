@@ -1,0 +1,32 @@
+.idea
+.venv
+.env
+
+# __PYCACHE__
+src/__pycache__
+src/logger/__pycache__
+src/db_functions/__pycache__
+src/staging/__pycache__
+src/backup_functions/__pycache__
+src/airflow/dags/__pycache__
+src/staging/pyspark_dataframes/__pycache__
+
+# SRC FILES/FOLDERS
+src/input
+src/output
+src/backup_functions
+src/staging/pyspark_dataframes/.ipynb_checkpoints
+src/staging/pyspark_dataframes/*.ipynb
+
+# OTHER FOLDERS
+logs/
+backups/
+dockerfiles/
+dbt/
+sql/
+
+# OTHER FILES
+main.py
+README.md
+325.ipynb
+docker-compose.*
