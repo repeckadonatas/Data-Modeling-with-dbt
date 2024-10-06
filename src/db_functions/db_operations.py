@@ -48,6 +48,8 @@ def load_to_database(db_conn: DatabaseConnection,
                      table_name: str) -> None:
     """
     Function to load the data of a dataframe to a specified table in the database.
+    Spark DataFrames are first transformed to Pandas DataFrames in order
+    to work with SQLAlchemy ORM table definitions.
     :param db_conn: SQLAlchemy database engine.
     :param dataframe: dataframe to load data from.
     :param table_name: table to load the data to.
