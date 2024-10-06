@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv, find_dotenv
 
 
-# REUSABLE FUNCTIONS
+# PROJECT AGNOSTIC FUNCTIONS
 def project_root(current_dir: Path,
                  root_dir_marker: str) -> Path:
     """
@@ -67,7 +67,7 @@ def remove_files_in_directory(dir_path: str) -> None:
 
 
 def determine_table_name(file_name: str,
-                         table_mapping: dict) -> tuple | None:
+                         table_mapping: dict) -> tuple | None:      # SO FAR NOT VERY USEFUL...
     """
     To map the correct dataframe with the table to load the data to.
     The function is used to make sure that the data of a dataframe
