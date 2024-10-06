@@ -1,0 +1,9 @@
+services:
+
+#  dbt:
+#    image: ghcr.io/dbt-labs/dbt-core:latest
+#    working_dir: /dbt
+#    command:
+#      - dbt run
+#    volumes:
+#      - .:/dbt
