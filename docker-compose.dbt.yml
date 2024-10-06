@@ -1,9 +1,28 @@
+# DBT CORE IMAGE BUILD
+x-dbt-core-build-config: &dbt-build-config
+  context: .
+  dockerfile: dockerfiles/dbt_docker/dbt.Dockerfile
+
+
 services:
 
-#  dbt:
-#    image: ghcr.io/dbt-labs/dbt-core:latest
-#    working_dir: /dbt
-#    command:
-#      - dbt run
-#    volumes:
-#      - .:/dbt
+  dbt_core_local_image:
+    image: dbt_core_local
+    build: *dbt-build-config
+
+  dbt:
+    image: dbt_core_local
+    #image: ghcr.io/dbt-labs/dbt-core:latest
+    container_name: local-dbt-core
+    working_dir: /dbt
+    command:
+      - dbt run
+    volumes:
+      - .:/dbt
+    networks:
+      - spark-network
+
+
+networks:
+  spark-network:
+    external: true
