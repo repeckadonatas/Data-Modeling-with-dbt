@@ -14,4 +14,8 @@ WORKDIR /usr/app/dbt
 
 ENV DBT_PROFILES_DIR=/usr/app/dbt
 
-CMD ["bash"]
+ENV PATH="/root/.local/bin:${PATH}"
+
+RUN dbt --version
+
+CMD ["dbt", "--version"]
