@@ -39,19 +39,20 @@ dbt-down:
 	docker compose -f docker-compose.dbt.yml down
 
 dbt-init:
-	docker compose -f docker-compose.dbt.yml run --rm dbt dbt init
+	#docker compose -f docker-compose.dbt.yml run --rm dbt dbt init
+	docker compose -f docker-compose.dbt.yml run dbt dbt init
 
 dbt-run:
-	docker compose -f docker-compose.dbt.yml run --rm dbt dbt run
+	docker compose -f docker-compose.dbt.yml run dbt dbt run
 
 dbt-test:
-	docker compose -f docker-compose.dbt.yml run --rm dbt dbt test
+	docker compose -f docker-compose.dbt.yml run dbt dbt test
 
 dbt-compile:
-	docker compose -f docker-compose.dbt.yml run --rm dbt dbt compile
+	docker compose -f docker-compose.dbt.yml run dbt dbt compile
 
 dbt-docs-generate:
-	docker compose -f docker-compose.dbt.yml run --rm dbt dbt docs generate
+	docker compose -f docker-compose.dbt.yml run dbt dbt docs generate
 
 dbt-shell:
-	docker compose -f docker-compose.dbt.yml run --rm dbt bash
+	docker compose -f docker-compose.dbt.yml run dbt bash
