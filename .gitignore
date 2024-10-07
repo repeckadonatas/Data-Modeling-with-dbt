@@ -22,5 +22,10 @@ src/staging/pyspark_dataframes/*.ipynb
 logs/
 backups/
 
+# DBT FOLDERS
+dbt/profiles.yml
+dbt/.user.yml
+dbt/sales_data_modeling_dbt/models/example
+
 # OTHER FILES
 airflow-compose.txt
