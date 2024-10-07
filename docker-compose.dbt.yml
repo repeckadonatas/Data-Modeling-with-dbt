@@ -6,19 +6,18 @@ x-dbt-core-build-config: &dbt-build-config
 
 services:
 
-  dbt_core_local_image:
+  dbt_core_local:
     image: dbt_core_local
     build: *dbt-build-config
 
   dbt:
     image: dbt_core_local
-    #image: ghcr.io/dbt-labs/dbt-core:latest
     container_name: local-dbt-core
-    working_dir: /dbt
+    working_dir: /usr/app/dbt
     command:
-      - dbt run
+      - dbt --version
     volumes:
-      - ./dbt:/dbt
+      - ./dbt:/usr/app/dbt
     networks:
       - spark-network
 
