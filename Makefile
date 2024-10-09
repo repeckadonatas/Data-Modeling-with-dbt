@@ -37,10 +37,13 @@ dbt-init:
 	docker compose -f docker-compose.dbt.yml run --rm dbt dbt init
 
 dbt-build:
-	docker compose -f docker-compose.dbt.yml run --rm dbt dbt build --select ${model}
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt build --select $(model) --profiles-dir /usr/app/dbt
 
-dbt-run:
+dbt-run-all:
 	docker compose -f docker-compose.dbt.yml run --rm dbt dbt run
+
+dbt-run-select:
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt run --select $(model) --profiles-dir /usr/app/dbt
 
 dbt-test:
 	docker compose -f docker-compose.dbt.yml run --rm dbt dbt test
