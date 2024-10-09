@@ -13,7 +13,8 @@ spark-restart:
 	docker compose -f docker-compose.spark.yml up
 
 spark-run-scaled:
-	docker compose down && docker compose up --scale spark-worker=3
+	docker compose -f docker-compose.spark.yml down && \
+	docker compose -f docker-compose.spark.yml up --scale spark-worker=3
 
 spark-submit:
 	docker exec spark-master spark-submit \
@@ -29,30 +30,29 @@ db-down:
 
 
 # FOR DBT
-dbt-build:
+dbt-image-build:
 	docker compose -f docker-compose.dbt.yml build dbt_core_local --no-cache
 
-dbt-up:
-	docker compose -f docker-compose.dbt.yml up
-
-dbt-down:
-	docker compose -f docker-compose.dbt.yml down
-
 dbt-init:
-	#docker compose -f docker-compose.dbt.yml run --rm dbt dbt init
-	docker compose -f docker-compose.dbt.yml run dbt dbt init
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt init
+
+dbt-build:
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt build --select ${model}
 
 dbt-run:
-	docker compose -f docker-compose.dbt.yml run dbt dbt run
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt run
 
 dbt-test:
-	docker compose -f docker-compose.dbt.yml run dbt dbt test
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt test
+
+dbt-debug:
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt debug
 
 dbt-compile:
-	docker compose -f docker-compose.dbt.yml run dbt dbt compile
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt compile
 
-dbt-docs-generate:
-	docker compose -f docker-compose.dbt.yml run dbt dbt docs generate
+dbt-docs:
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt docs generate
 
 dbt-shell:
-	docker compose -f docker-compose.dbt.yml run dbt bash
+	docker compose -f docker-compose.dbt.yml run --rm dbt bash
