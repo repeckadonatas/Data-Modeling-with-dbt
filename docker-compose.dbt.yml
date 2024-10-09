@@ -13,9 +13,12 @@ services:
   dbt:
     image: dbt_core_local
     container_name: local-dbt-core
-    working_dir: /usr/app/dbt
+    working_dir: /usr/app/dbt/sales_data_modeling_dbt
+    env_file:
+      - .env
     command:
       - dbt --version
+      - dbt --profiles-dir /usr/app/dbt debug
     volumes:
       - ./dbt:/usr/app/dbt
     networks:
