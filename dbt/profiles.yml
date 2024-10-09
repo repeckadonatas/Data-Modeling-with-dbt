@@ -3,7 +3,7 @@ sales-data-modeling:
   outputs:
     dev:
       type: postgres
-      host: ${PGHOST}
+      host: [host]
       user: [username]
       password: [password]
       port: [port]
@@ -19,3 +19,17 @@ sales-data-modeling:
       sslcert: [optional, set the sslcert to control the certifcate file location]
       sslkey: [optional, set the sslkey to control the location of the private key]
       sslrootcert: [optional, set the sslrootcert config value to a new file path in order to customize the file location that contain root certificates]
+
+
+sales_data_modeling_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var ('PGHOST') }}"
+      user: "{{ env_var ('PGUSER') }}"
+      password: "{{ env_var ('PGPASSWORD') }}"
+      port: "{{ env_var ('PGPORT') | int }}"
+      dbname: "{{ env_var ('PGDATABASE') }}"
+      schema: "{{ env_var ('DBT_SCHEMA') }}"
+      threads: 4
