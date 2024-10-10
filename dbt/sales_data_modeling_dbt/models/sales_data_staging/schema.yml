@@ -61,7 +61,7 @@ models:
   - name: stg_seasons
     description: "dbt model for 'seasons' table"
     columns:
-      - name: season_year
+      - name: year
         description: "The primary key for this table. Marks a season of a race"
         data_tests:
           - unique
