@@ -52,7 +52,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 - --version=$POETRY_VE
 COPY poetry.lock pyproject.toml ./
 
 # Installing dependencies
-RUN poetry install --no-root
+RUN poetry install --no-root --no-dev
 
 # Spark installation
 RUN curl "https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" -o "spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" && \
