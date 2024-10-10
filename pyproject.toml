@@ -13,13 +13,12 @@ python-dotenv = "1.0.1"
 psycopg = {extras = ["binary"], version = "3.2.1"}
 pytz = "^2024.1"
 SQLAlchemy = "2.0.32"
-pandas = "2.2.2"
 SQLAlchemy-Utils = "0.41.2"
-requests = "2.32.3"
-pyspark = "3.5.1"
+requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
 findspark = "^2.0.1"
+pyspark = "3.5.1"
 
 [build-system]
 requires = ["poetry-core"]
