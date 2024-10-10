@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: raw_f1_data
+    database: sales_data_db
+    schema: public
+    tables:
+      - name: drivers
+      - name: constructors
+      - name: circuits
+      - name: seasons
+      - name: status
