@@ -4,8 +4,81 @@ models:
   - name: stg_drivers
     description: "dbt model for 'drivers' table"
     columns:
-      - name: id
+      - name: driver_id
         description: "The primary key for this table"
         data_tests:
           - unique
           - not_null
+      - name: driver_ref
+        description: "Unique driver identifier"
+        data_tests:
+          - not_null
+      - name: driver_number
+        description: "Permanent driver number"
+      - name: driver_code
+        description: "Driver code e.g. 'ALO'"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_constructors
+    description: "dbt model for 'constructors' table"
+    columns:
+      - name: constructor_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: constructor_ref
+        description: "Unique constructor identifier"
+        data_tests:
+          - not_null
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_circuits
+    description: "dbt model for 'circuits' table"
+    columns:
+      - name: circuit_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: circuit_ref
+        description: "Unique circuit identifier"
+        data_tests:
+          - not_null
+      - name: circuit_location
+        description: "Circuit location name"
+        data_tests:
+          - not_null
+      - name: country
+        description: "Name of the country where circuit is located"
+      - name: timestamp
+        description: "Time of data insertion"
+
+  - name: stg_seasons
+    description: "dbt model for 'seasons' table"
+    columns:
+      - name: season_year
+        description: "The primary key for this table. Marks a season of a race"
+        data_tests:
+          - unique
+          - not_null
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_status
+    description: "dbt model for 'status' table"
+    columns:
+      - name: status_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Status of a race for a particular driver e.g. 'Retired'"
+      - name: timestamp
+        description: "Time of data insertion"
