@@ -23,10 +23,10 @@ spark-submit:
 
 # FOR DATABASE
 db-up:
-	docker compose -f docker-compose.app.yml up
+	docker compose -f docker-compose.db.yml up
 
 db-down:
-	docker compose -f docker-compose.app.yml down
+	docker compose -f docker-compose.db.yml down
 
 
 # FOR DBT
