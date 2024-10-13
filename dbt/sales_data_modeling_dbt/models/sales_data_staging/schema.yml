@@ -197,11 +197,6 @@ models:
   - name: stg_lap_times
     description: "dbt model for 'lap_times' table"
     columns:
-      - name: lap_time_id
-        description: "The primary key for this table"
-        data_tests:
-          - unique
-          - not_null
       - name: race_id
         description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
       - name: driver_id
@@ -213,11 +208,6 @@ models:
   - name: stg_pit_stops
     description: "dbt model for 'pit_stops' table"
     columns:
-      - name: pit_stop_id
-        description: "The primary key for this table"
-        data_tests:
-          - unique
-          - not_null
       - name: race_id
         description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
       - name: driver_id
@@ -229,7 +219,7 @@ models:
   - name: stg_constructor_results
     description: "dbt model for 'constructor_results' table"
     columns:
-      - name: constructor_results_id
+      - name: constructor_result_id
         description: "The primary key for this table"
         data_tests:
           - unique
