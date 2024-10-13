@@ -19,6 +19,7 @@ requests = "^2.32.3"
 [tool.poetry.group.dev.dependencies]
 findspark = "^2.0.1"
 pyspark = "3.5.1"
+python-dateutil = "^2.9.0.post0"
 
 [build-system]
 requires = ["poetry-core"]
