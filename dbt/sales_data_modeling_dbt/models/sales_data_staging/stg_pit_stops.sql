@@ -2,7 +2,6 @@
 
     select
 
-        pit_stops_id as pit_stop_id,
         race_id,
         driver_id,
         pit_stop_number,

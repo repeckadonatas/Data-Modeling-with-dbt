@@ -2,7 +2,6 @@
 
     select
 
-        lap_times_id as lap_time_id,
         race_id,
         driver_id,
         lap,
