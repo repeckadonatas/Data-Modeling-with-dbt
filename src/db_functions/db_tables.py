@@ -17,7 +17,7 @@ class CircuitsTable(Base):
     longitude = Column(Float(), default=None)
     altitude = Column(Integer(), default=None)
     circuit_url = Column(String(), nullable=False)
-    timestamp = Column(DateTime(timezone=True))  # <- ADD TIMESTAMP FUNCTION!!!!
+    timestamp = Column(DateTime(timezone=True))
 
 
 class ConstructorsTable(Base):
