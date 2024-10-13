@@ -10,3 +10,12 @@ sources:
       - name: circuits
       - name: seasons
       - name: status
+      - name: races
+      - name: qualifying
+      - name: results
+      - name: driver_standings
+      - name: sprint_results
+      - name: lap_times
+      - name: pit_stops
+      - name: constructor_results
+      - name: constructor_standings
