@@ -5,6 +5,7 @@ Constants that are used throughout the project.
 import logging
 from datetime import datetime
 
+from pyspark.sql.functions import lit, col
 from pyspark.sql.types import (StructType, StructField, StringType, IntegerType,
                                DoubleType, DateType)
 
@@ -197,7 +198,6 @@ SPRINT_RESULTS_SCHEMA = StructType(
 
 LAP_TIMES_SCHEMA = StructType(
     [
-        StructField('lap_times_id', IntegerType(), False),
         StructField('race_id', IntegerType(), False),
         StructField('driver_id', IntegerType(), False),
         StructField('lap', IntegerType(), False),
@@ -205,11 +205,10 @@ LAP_TIMES_SCHEMA = StructType(
         StructField('lap_time', StringType(), True),
         StructField('milliseconds', IntegerType(), True)
     ]
-)
+).add('id', IntegerType(), True)
 
 PIT_STOPS_SCHEMA = StructType(
     [
-        StructField('pit_stops_id', IntegerType(), False),
         StructField('race_id', IntegerType(), False),
         StructField('driver_id', IntegerType(), False),
         StructField('pit_stop_number', IntegerType(), False),
@@ -218,7 +217,7 @@ PIT_STOPS_SCHEMA = StructType(
         StructField('stop_duration', StringType(), True),
         StructField('milliseconds', IntegerType(), True)
     ]
-)
+).add('id', IntegerType(), True)
 
 CONSTRUCTOR_RESULTS_SCHEMA = StructType(
     [
