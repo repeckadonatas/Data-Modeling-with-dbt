@@ -163,20 +163,19 @@ class SprintResultsTable(Base):
 class LapTimesTable(Base):
     __tablename__ = 'lap_times'
 
-    lap_times_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
     race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
     driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
     lap = Column(Integer(), nullable=False, default=None)
     driver_position = Column(Integer(), default=None)
     lap_time = Column(String(), default=None)
     milliseconds = Column(Integer(), default=None)
+    id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
     timestamp = Column(DateTime(timezone=True))
 
 
 class PitStopsTable(Base):
     __tablename__ = 'pit_stops'
 
-    pit_stops_id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
     race_id = Column(Integer(), ForeignKey('races.race_id', ondelete='CASCADE'), nullable=False)
     driver_id = Column(Integer(), ForeignKey('drivers.driver_id', ondelete='CASCADE'), nullable=False)
     pit_stop_number = Column(Integer(), nullable=False, default=None)
@@ -184,6 +183,7 @@ class PitStopsTable(Base):
     time_of_stop = Column(String(), nullable=False, default=None)
     stop_duration = Column(String(), default=None)
     milliseconds = Column(Integer(), default=None)
+    id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
     timestamp = Column(DateTime(timezone=True))
 
 
