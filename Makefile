@@ -51,8 +51,11 @@ dbt-test:
 dbt-debug:
 	docker compose -f docker-compose.dbt.yml run --rm dbt dbt debug
 
-dbt-compile:
+dbt-compile-all:
 	docker compose -f docker-compose.dbt.yml run --rm dbt dbt compile
+
+dbt-compile-select:
+	docker compose -f docker-compose.dbt.yml run --rm dbt dbt compile --select $(model)
 
 dbt-docs:
 	docker compose -f docker-compose.dbt.yml run --rm dbt dbt docs generate
