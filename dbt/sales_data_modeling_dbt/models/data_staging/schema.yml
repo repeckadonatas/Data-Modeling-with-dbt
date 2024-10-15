@@ -1,0 +1,254 @@
+version: 2
+
+models:
+  - name: stg_drivers
+    description: "dbt model for 'drivers' table"
+    columns:
+      - name: driver_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: driver_ref
+        description: "Unique driver identifier"
+        data_tests:
+          - not_null
+      - name: driver_number
+        description: "Permanent driver number"
+      - name: driver_code
+        description: "Driver code e.g. 'ALO'"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_constructors
+    description: "dbt model for 'constructors' table"
+    columns:
+      - name: constructor_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: constructor_ref
+        description: "Unique constructor identifier"
+        data_tests:
+          - not_null
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_circuits
+    description: "dbt model for 'circuits' table"
+    columns:
+      - name: circuit_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: circuit_ref
+        description: "Unique circuit identifier"
+        data_tests:
+          - not_null
+      - name: circuit_location
+        description: "Circuit location name"
+        data_tests:
+          - not_null
+      - name: country
+        description: "Name of the country where circuit is located"
+      - name: timestamp
+        description: "Time of data insertion"
+
+  - name: stg_seasons
+    description: "dbt model for 'seasons' table"
+    columns:
+      - name: year
+        description: "The primary key for this table. Marks a season of a race"
+        data_tests:
+          - unique
+          - not_null
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_status
+    description: "dbt model for 'status' table"
+    columns:
+      - name: status_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: status
+        description: "Status of a race for a particular driver e.g. 'Retired'"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_races
+    description: "dbt model for 'races' table"
+    columns:
+      - name: race_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: race_year
+        description: "Foreign key constraint. Matches 'year' column in 'seasons' table"
+      - name: circuit_id
+        description: "Foreign key constraint. Matches 'circuit_id' column in 'circuits' table"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_qualifying
+    description: "dbt model for 'qualifying' table"
+    columns:
+      - name: qualify_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: driver_id
+        description: "Foreign key constraint. Matches 'driver_id' column in 'drivers' table"
+      - name: constructor_id
+        description: "Foreign key constraint. Matches 'constructor_id' column in 'constructors' table"
+      - name: q1_lap_time
+        description: "Lap time of the first qualifying lap run"
+      - name: q2_lap_time
+        description: "Lap time of the second qualifying lap run"
+      - name: q3_lap_time
+        description: "Lap time of the third qualifying lap run"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_results
+    description: "dbt model for 'results' table"
+    columns:
+      - name: result_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: driver_id
+        description: "Foreign key constraint. Matches 'driver_id' column in 'drivers' table"
+      - name: constructor_id
+        description: "Foreign key constraint. Matches 'constructor_id' column in 'constructors' table"
+      - name: position_text
+        description: "Driver position string e.g. '1' (Started at the Start line) or 'R' (Retired)"
+      - name: position_order
+        description: "Driver position for ordering purposes"
+      - name: milliseconds
+        description: "Finishing time in milliseconds"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_driver_standings
+    description: "dbt model for 'driver_standings' table"
+    columns:
+      - name: driver_standing_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: driver_id
+        description: "Foreign key constraint. Matches 'driver_id' column in 'drivers' table"
+      - name: driver_wins
+        description: "Season win count"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_sprint_results
+    description: "dbt model for 'sprint_results' table"
+    columns:
+      - name: sprint_result_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: driver_id
+        description: "Foreign key constraint. Matches 'driver_id' column in 'drivers' table"
+      - name: constructor_id
+        description: "Foreign key constraint. Matches 'constructor_id' column in 'constructors' table"
+      - name: grid_position
+        description: "Starting grid position"
+      - name: official_position
+        description: "Official classification, if applicable"
+      - name: position_text
+        description: "Driver position string e.g. '1' (Started at the Start line) or 'R' (Retired)"
+      - name: position_order
+        description: "Driver position for ordering purposes"
+      - name: status_id
+        description: "Foreign key constraint. Matches 'status_id' column in 'status' table"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_lap_times
+    description: "dbt model for 'lap_times' table"
+    columns:
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: driver_id
+        description: "Foreign key constraint. Matches 'driver_id' column in 'drivers' table"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_pit_stops
+    description: "dbt model for 'pit_stops' table"
+    columns:
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: driver_id
+        description: "Foreign key constraint. Matches 'driver_id' column in 'drivers' table"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_constructor_results
+    description: "dbt model for 'constructor_results' table"
+    columns:
+      - name: constructor_result_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: constructor_id
+        description: "Foreign key constraint. Matches 'constructor_id' column in 'constructors' table"
+      - name: points
+        description: "Constructor points for race"
+      - name: timestamp
+        description: "Time of data insertion"
+
+
+  - name: stg_constructor_standings
+    description: "dbt model for 'constructor_standings' table"
+    columns:
+      - name: constructor_standing_id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+      - name: race_id
+        description: "Foreign key constraint. Matches 'race_id' column in 'races' table"
+      - name: constructor_id
+        description: "Foreign key constraint. Matches 'constructor_id' column in 'constructors' table"
+      - name: constructor_points
+        description: "Constructor points for a season"
+      - name: constructor_wins
+        description: "Constructor season win count"
+      - name: timestamp
+        description: "Time of data insertion"
