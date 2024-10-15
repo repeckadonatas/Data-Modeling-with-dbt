@@ -32,5 +32,18 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   sales_data_modeling_dbt:
     # Config indicated by + and applies to all files under models/example/
-    sales_data_staging:
+    data_staging:
       +materialized: view
+    data_marts:
+      +materialized: table
+      core:
+        +schema: core_schema
+        +materialized: table
+      driver_performance:
+        +schema: driver_performance_schema
+        +materialized: table
+      constructor_performance:
+        +schema: constructor_performance_schema
+        +materialized: table
+      data_intermediate:
+        +materialized: table
