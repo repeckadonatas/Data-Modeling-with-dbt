@@ -182,6 +182,6 @@ The `concurrent.futures` module allows for an easier way to run multiple tasks s
 Using **ThreadPoolExecutor** subclass uses a pool of threads to execute calls asynchronously. All threads enqueued to **ThreadPoolExecutor** will be joined before the interpreter can exit.
 
 
-## What could be improved or changed (TODO!!!!)
+## What could be improved or changed
 
 * The Spark dataframe upload to a database function could ditch the workaround to use Pandas API so that the dataframes could be uploaded to tables defined with SQLAlchemy. The same table definition could have been achieved with Spark. Or a different workaround could have been implemented.
