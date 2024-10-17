@@ -141,7 +141,7 @@ To connect to the database, the `src/db_functions/db_connection.py` file needs t
 
 When using Docker, **PostgreSQL** needs **POSTGRES_USER**, **POSTGRES_PASSWORD** and **POSTGRES_DB** environment variables to be passed. For this reason the YAML file can be set up to read these environment variables from `.env` file.
 
-Once the `make db-up` command is issued, an `init.sql` file will be run to create a database and necessary user.
+Once the `make db-up` command is issued, an `init.sql` file will be run to create a database and necessary user. To set up a new user with necessary credentials, edit the `init.sql` file in `sql` folder. 
 
 \
 1.2 **To Connect to a PostgreSQL database from OUTSIDE the Docker container:**
@@ -163,6 +163,8 @@ Spark Image requires `.env.spark` file that contains the following Spark option:
 * **SPARK_NO_DAEMONIZE=true**
 This command allows Spark container to run indefinitely until a `make spark-down` command is run.
 
+Spark Image also uses a `entrypoint.sh` shell script located in `scripts` folder. It is used to correctly bind Spark worker node and Spark master node ports.
+
 \
 **Note:**
 
@@ -179,9 +181,7 @@ The `concurrent.futures` module allows for an easier way to run multiple tasks s
 
 Using **ThreadPoolExecutor** subclass uses a pool of threads to execute calls asynchronously. All threads enqueued to **ThreadPoolExecutor** will be joined before the interpreter can exit.
 
+
 ## What could be improved or changed (TODO!!!!)
 
-* A better solution to parse and normalize JSON files;
-* Additional DAG to run the application locally, since that would be enough for this project and the maintenance would be easier;
-* Webscraping scripts to not be dependent on APIs only.
-
+* The Spark dataframe upload to a database function could ditch the workaround to use Pandas API so that the dataframes could be uploaded to tables defined with SQLAlchemy. The same table definition could have been achieved with Spark. Or a different workaround could have been implemented.
