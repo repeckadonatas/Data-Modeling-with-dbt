@@ -3,12 +3,9 @@ from queue import Queue
 import concurrent.futures
 from concurrent.futures import CancelledError, TimeoutError, BrokenExecutor
 
-# import src.logger as log
-# from src.db_functions.db_connection import DatabaseConnection
-# from src.db_functions.db_tables import *
 from src.db_functions.db_operations import *
 from src.staging.data_staging import *
-from src.utils import get_files_in_directory, determine_table_name
+from src.utils import get_files_in_directory
 from src.constants import PATH_TO_DATA_STORAGE, FILE_TABLE_MAP
 
 main_logger = log.app_logger(__name__)
