@@ -1,4 +1,4 @@
-# Sales Data Modeling
+# Formula 1 Data Modeling
 
 
 ## About
@@ -191,3 +191,4 @@ Using **ThreadPoolExecutor** subclass uses a pool of threads to execute calls as
 ## What could be improved or changed
 
 * The Spark dataframe upload to a database function could ditch the workaround to use Pandas API so that the dataframes could be uploaded to tables defined with SQLAlchemy. The same table definition could have been achieved with Spark. Or a different workaround could have been implemented.
+* The project could have been done entirely with dbt. So the CSV files for the dbt models could have been placed inside the `seeds` folder in a dbt project. Spark here was used as a good excuse to improve knowledge on Spark usage in Data Engineering.
