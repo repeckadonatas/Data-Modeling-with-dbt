@@ -115,6 +115,12 @@ Prior to using Spark and dbt, their respective Docker Images have to be built:
 - To stop running images and remove them, run `stop_app_airflow_containers.sh` script.
 
 
+### 2. Poetry
+
+Dependencies for the project are managed by using Poetry. Inside `pyproject.toml` file dependencies are split into two sections: `[tool.poetry.dependencies]` and `[tool.poetry.group.dev.dependencies]`. For the project to works as it is intended, only dependencies from `[tool.poetry.dependencies]` section need to be installed. To do so, in the terminal window type `poetry install --no-root --no-dev` command. 
+
+If dependencies from `[tool.poetry.group.dev.dependencies]` group are needed, type `poetry install --no-root` command instead.
+
 **Note:**
 
 Every time the program runs, a log file is created in `logs` folder for that day. Information about any subsequent run is appended to the log file of that day. The program logs every data transformation and data upload to the database. Errors are also logged into the same log file for the current day of the run.
