@@ -3,7 +3,7 @@
 
 ## About
 
-This project is an exercise in learning to use dbt (Data Build Tool) and learning how to apply dbt on an already existing database with well established structure. The project envelopes the use of Python, SQL, Docker, Spark and dbt.
+This project is an exercise in learning to use **dbt** (Data Build Tool) and learning how to apply dbt on an already existing database with well established structure. The project envelopes the use of Python, SQL, Docker, Spark and dbt.
 
 The project uses **[Formula 1 World Championship (1950-2024)](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020?select=circuits.csv)** dataset from Kaggle. The relevant data is stored as CSV files. As there is no need for periodic data ingestion the data is downloaded and stored locally. 
 
@@ -63,7 +63,7 @@ The part of Python code used for running Spark job uses Threading as a concurren
     * `constructor_standings`
     * This data is also regarded as **raw** data in **dbt**. 
 
-  * For project's **dbt** part, data is contained in multiple tables that are regarded as a soft wrap on the already existing tables. These tables are stored in `dbt_schema` schema as views:
+  * For project's **dbt** part, tables are stored in `dbt_schema` schema as views and tables. Data contained in multiple staging tables are regarded as a _soft wrap_ on the already existing tables:
     * `stg_drivers`
     * `stg_constructors`
     * `stg_circuits`
@@ -78,18 +78,15 @@ The part of Python code used for running Spark job uses Threading as a concurren
     * `stg_pit_stops`
     * `stg_constructor_results`
     * `stg_constructor_standings`
-  * Going further in data modeling using **dbt**, intermediate tables are also stored in `dbt_schema`:
+  * Going further into data modeling using **dbt**, intermediate tables are:
     * `int_constructor_total_points_season`
     * `int_driver_total_points_season`
     * `int_race_results`
-  * Mart tables are stored in their respective schemas:
-    * In `dbt_schema_core_schema`:
-        * `dim_constructors`
-        * `dim_drivers`
-    * In `dbt_schema_constructor_performance_schema`:
-      * `fct_constructor_performance`
-    * In `dbt_schema_driver_performance_schema`:
-      * `fct_driver_performance`
+  * Mart tables in `dbt_schema`:
+    * `dim_constructors`
+    * `dim_drivers`
+    * `fct_constructor_performance`
+    * `fct_driver_performance`
 
 
 * **Containerization**
@@ -117,7 +114,7 @@ Prior to using Spark and dbt, their respective Docker Images have to be built:
 
 ### 2. Poetry
 
-Dependencies for the project are managed by using Poetry. Inside `pyproject.toml` file dependencies are split into two sections: `[tool.poetry.dependencies]` and `[tool.poetry.group.dev.dependencies]`. For the project to works as it is intended, only dependencies from `[tool.poetry.dependencies]` section need to be installed. To do so, in the terminal window type `poetry install --no-root --no-dev` command. 
+Dependencies for the project are managed using Poetry. Inside `pyproject.toml` file dependencies are split into two sections: `[tool.poetry.dependencies]` and `[tool.poetry.group.dev.dependencies]`. For the project to works as it is intended, only dependencies from `[tool.poetry.dependencies]` section need to be installed. To do so, in the terminal window type `poetry install --no-root --no-dev` command. 
 
 If dependencies from `[tool.poetry.group.dev.dependencies]` group are needed, type `poetry install --no-root` command instead.
 
@@ -159,8 +156,8 @@ When connecting to a database from **outside** the Docker container, for connect
 * **PASSWORD** 
 * and **HOST** variable. 
 
-For **HOST** use `localhost` or `127.0.0.1`. \
-For when the application running in Docker and other services need to connect to Postgres, **HOST** should be the name of Postgres database service in YAML file. In this case it is `project-db`.
+For **HOST** use `localhost` or `127.0.0.1` (as a default network on a local machine). \
+For when the application is running in Docker and other services need to connect to Postgres, **HOST** should be the name of Postgres database service in YAML file. In this case it is `project-db`.
 
 \
 1.3 **For Spark Image:**
