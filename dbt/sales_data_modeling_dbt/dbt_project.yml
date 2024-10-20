@@ -37,13 +37,10 @@ models:
     data_marts:
       +materialized: table
       core:
-        +schema: core_schema
         +materialized: table
       driver_performance:
-        +schema: driver_performance_schema
         +materialized: table
       constructor_performance:
-        +schema: constructor_performance_schema
         +materialized: table
       data_intermediate:
         +materialized: table
